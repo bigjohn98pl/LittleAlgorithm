@@ -9,8 +9,9 @@ using namespace std;
 class little{
 public:
     double metodaWegierskaKrok1(double T[N][M]);
+    double MinimumWiersza(double T[N][M],int x);
     int indexMinimumWiersza(double T[M]);
-
+    void wypisz(double T[N][M]);
 private:
 
 };
@@ -25,6 +26,15 @@ int little::indexMinimumWiersza(double T[M]){
     return minIndex;
 }
 
+double little::MinimumWiersza(double T[N][M],int x){
+    double min = T[x][0];
+    for(int i = 1 ; i<M; i++){
+        if(T[x][i] < T[x][i-1]){
+            min = T[x][i];
+        }
+    }
+    return min;
+}
 
 double little::metodaWegierskaKrok1(double T[N][M]){
     double Min;
@@ -37,12 +47,23 @@ double little::metodaWegierskaKrok1(double T[N][M]){
 
     return Min;
 }
-
+void little::wypisz(double T[N][M]){
+    for(int j = 0; j<N; j++){
+        cout <<"|";
+        for(int i = 0 ; i<M; i++){
+            cout << setw(4);
+            cout << T[j][i] << " ";
+        }
+        cout <<" |- "<< MinimumWiersza(T,j) << endl;
+    }
+}
 int main()
 {
-    double tab[N][M] = {{1.4,2.2},{21.6,3.5}};
+    double tab[N][M] = {{1.5,2.5},{22,4}};
 
     little problem1;
-
+    problem1.wypisz(tab);
+    problem1.metodaWegierskaKrok1(tab);
+    problem1.wypisz(tab);
     return 0;
 }
