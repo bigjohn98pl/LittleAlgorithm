@@ -48,7 +48,15 @@ void little::set(int wier,int kol){
 }
 
 int little::indexMinimumWiersza(int wiersz, int wyklucz){
-    int minIndex = 0;
+
+    int minIndex;
+    if(wyklucz != -1){
+        minIndex = 1;
+    }
+    else{
+        minIndex = 0;
+    }
+
     int lastMinIndex = minIndex;
     for(int i = 1 ; i<kolumny; i++){
         if(Tab[wiersz][i] < Tab[wiersz][minIndex]){
