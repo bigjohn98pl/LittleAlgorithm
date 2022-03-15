@@ -11,15 +11,15 @@ public:
     little(){};
     ~little(){};
     void set( int wier, int kol);
-    int indexMinimumWiersza(int wiersz, int wyklucz = -1);
-    int indexMinimumKolumny(int kolumna, int wyklucz = -1);
+    int indexMinRow(int wiersz, int wyklucz = -1);
+    int indexMinCol(int kolumna, int wyklucz = -1);
     double metodaWegierskaKrok1();
     double metodaWegierskaKrok2();
     double bilansZer();
     void wypiszKrok1();
     void wypiszKrok2();
-    void wypiszTablice();
-    void wypiszDane();
+    void showArray();
+    void showData();
 private:
     int wiersze,kolumny;
     double **Tab;
@@ -47,7 +47,7 @@ void little::set(int wier,int kol){
 
 }
 
-int little::indexMinimumWiersza(int wiersz, int wyklucz){
+int little::indexMinRow(int wiersz, int wyklucz){
 
     int minIndex;
     if(wyklucz != -1){
@@ -72,7 +72,7 @@ int little::indexMinimumWiersza(int wiersz, int wyklucz){
     }
 }
 
-int little::indexMinimumKolumny(int kolumna , int wyklucz){
+int little::indexMinCol(int kolumna , int wyklucz){
 
     int minIndex;
     if(wyklucz != -1){
@@ -104,7 +104,7 @@ double little::metodaWegierskaKrok1(){
     double Min =0 ;
     oszacowanieDolne = 0;
     for(int j = 0; j<wiersze; j++){
-        Min = Tab[j][indexMinimumWiersza(j)];
+        Min = Tab[j][indexMinRow(j)];
         oszacowanieDolne = oszacowanieDolne + Min;
         for(int i=0 ; i<kolumny ; i++){
             Tab[j][i] = Tab[j][i] - Min;
@@ -125,7 +125,7 @@ double little::metodaWegierskaKrok2(){
             }
         }
         if(count >= kolumny){
-            Min = Tab[indexMinimumKolumny(i)][i];
+            Min = Tab[indexMinCol(i)][i];
             oszacowanieDolne = oszacowanieDolne + Min;
             for(int j=0 ; j<wiersze ; j++){
                 Tab[j][i] = Tab[j][i] - Min;
@@ -141,9 +141,9 @@ double little::bilansZer(){
     for(int j = 0; j < wiersze; j++){
         for(int i = 0 ; i < kolumny ; i++){
             if(Tab[j][i] == 0){
-                suma = Tab[indexMinimumKolumny(i)][i] + Tab[indexMinimumWiersza(j)][j];
-                cout << "Suma wiersza i kolumny ["<< j+1 << " " << i+1 <<"] to : "<< Tab[indexMinimumKolumny(i,i)][j] << "[" << indexMinimumKolumny(i)+1 << " " << j+1 << "] "
-                                                                                  << Tab[i][indexMinimumWiersza(j,j)] << "[" << indexMinimumWiersza(j)+1 << " " << i+1 << "]" << endl;
+                suma = Tab[indexMinCol(i)][i] + Tab[indexMinRow(j)][j];
+                cout << "Suma wiersza i kolumny ["<< j+1 << " " << i+1 <<"] to : "<< Tab[indexMinCol(i,i)][j] << "[" << indexMinCol(i)+1 << " " << j+1 << "] "
+                                                                                  << Tab[i][indexMinRow(j,j)] << "[" << indexMinRow(j)+1 << " " << i+1 << "]" << endl;
             }
         }
     }
@@ -156,7 +156,7 @@ void little::wypiszKrok1(){
             cout << setw(4);
             cout << Tab[j][i] << " ";
         }
-        cout <<" |- "<< Tab[j][indexMinimumWiersza(j)] << endl;
+        cout <<" |- "<< Tab[j][indexMinRow(j)] << endl;
     }
     cout << endl;
 }
@@ -174,12 +174,12 @@ void little::wypiszKrok2(){
     }
     cout << endl;
     for(int i = 0 ; i<kolumny; i++){
-        cout <<"   -"<< Tab[indexMinimumKolumny(i)][i];
+        cout <<"   -"<< Tab[indexMinCol(i)][i];
     }
     cout << endl;
 }
 
-void little::wypiszTablice(){
+void little::showArray(){
     cout << endl;
     for(int i = 0 ; i<kolumny; i++){
         cout <<"_____";
@@ -199,7 +199,7 @@ void little::wypiszTablice(){
     cout << endl;
 }
 
-void little::wypiszDane(){
+void little::showData(){
     cout << "wiersze: "<< wiersze << endl;
     cout << "kolumny: "<< kolumny << endl;
     cout << "Oszacowanie dolne: " << oszacowanieDolne << endl;
@@ -209,13 +209,13 @@ int main()
 
     little problem1;
     problem1.set(5,5);
-    problem1.wypiszTablice();
+    problem1.showArray();
     problem1.wypiszKrok1();
     problem1.metodaWegierskaKrok1();
     problem1.wypiszKrok2();
     problem1.metodaWegierskaKrok2();
-    problem1.wypiszTablice();
-    problem1.wypiszDane();
+    problem1.showArray();
+    problem1.showData();
     problem1.bilansZer();
     return 0;
 }
