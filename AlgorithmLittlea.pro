@@ -4,4 +4,13 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
-        main.cpp
+        krawedz.cpp \
+        little.cpp \
+    macierz.cpp \
+        main.cpp \
+
+HEADERS += \
+    global.hpp \
+    krawedz.hpp \
+    little.hpp \
+    macierz.hpp
