@@ -30,6 +30,7 @@ public:
     macierz& operator =(macierz& B);
     void delRowCol(int row, int col);
     bool haveZeros();
+    bool haveZerosRows();
 
 
     double operator ()(int i, int j);

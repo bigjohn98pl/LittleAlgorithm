@@ -39,6 +39,7 @@ private:
     double ograniczenia[2];
     double kara;
     krawedz *head;
+    krawedz *next;
 };
 
 

@@ -59,11 +59,11 @@ little::~little(){
 }
 double little::metodaWegierskaKrok1(){
     double Min =0 ;
-    for(int j = 0; j<NM.N; j++){
-        Min = NM[j][NM.indexMinRow(j)];
+    for(int i = 0; i<NM.N; i++){
+        Min = NM[i][NM.indexMinRow(i)];
         ograniczenia[0] = ograniczenia[0] + Min;
-        for(int i=0 ; i<NM.M ; i++){
-            NM[j][i] = NM[j][i] - Min;
+        for(int j=0 ; j<NM.M ; j++){
+            NM[i][j] = NM[i][j] - Min;
         }
     }
 
@@ -72,47 +72,40 @@ double little::metodaWegierskaKrok1(){
 
 double little::metodaWegierskaKrok2(){
     double Min =0 ;
-    int count = 0;
     for(int i = 0; i < NM.N; i++){
 
-        for(int j = 0 ; j < NM.M ; j++){
-            if(NM[j][i] > 0){
-                count++;
-            }
+        Min = NM[NM.indexMinCol(i)][i];
+        ograniczenia[0] = ograniczenia[0] + Min;
+        for(int j=0 ; j<NM.N ; j++){
+            NM[j][i] = NM[j][i] - Min;
         }
-        if(count >= NM.M){
-            Min = NM[NM.indexMinCol(i)][i];
-            ograniczenia[0] = ograniczenia[0] + Min;
-            for(int j=0 ; j<NM.N ; j++){
-                NM[j][i] = NM[j][i] - Min;
-            }
-        }
-        count = 0;
     }
     return Min;
 }
 void little::krokDrugi(){
-    double suma=0,sumaMax=0;
+    double suma=0,karaMax=0;
+    next = head;
     int* iMin;
     for(int i = 0; i < NM.N; i++){
         for(int j = 0 ; j < NM.M ; j++){
             if(NM[i][j] == 0){
                 iMin = NM.indexMin(i,j);
                 suma = NM[iMin[0]][j] + NM[i][iMin[1]];
-                if(suma > sumaMax){
-                    sumaMax = suma;
+                if(suma > karaMax){
+                    karaMax = suma;
                     iKrawedz[0] = i;
                     iKrawedz[1] = j;
                 }
             }
         }
     }
-    kara = sumaMax;
-    head->ograniczenieDolne = ograniczenia[0];
+    kara = karaMax;
+    next->ograniczenieDolne = ograniczenia[0];
 }
 void little::krokTrzeci(){
     ograniczenia[1] += ograniczenia[0]+kara;
     int wiersz = iKrawedz[0],   kolumna = iKrawedz[1];
+    next= head->prawa;
     head->lewa = new krawedz(NM.nameN[wiersz],NM.nameN[kolumna],ograniczenia[1]);
     head->prawa = new krawedz(NM.nameN[wiersz],NM.nameN[kolumna],ograniczenia[0]);
 }
@@ -233,10 +226,10 @@ void little::showGraph(){
         cout << endl;
         tabs--;
         if(head->lewa){
-        head->lewa->show(tabs,false);
+            head->lewa->show(tabs,false);
         }
         if(head->prawa){
-        head->prawa->show(tabs,true);
+            head->prawa->show(tabs,true);
         }
         cout << endl;
         head = head->prawa;

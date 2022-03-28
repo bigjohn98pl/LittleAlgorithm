@@ -236,6 +236,23 @@ void macierz::delRowCol(int row, int col){
         M--;
     }
 }
+bool macierz::haveZerosRows(){
+    int countRowZeros=0;
+    for(int i = 0; i < N; i++){
+        for(int j = 0 ; j < M ; j++){
+            if(tablica[i][j] == 0){
+                countRowZeros++;
+            }
+        }
+    }
+
+    if(countRowZeros > 0 && countRowZeros == N){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
 bool macierz::haveZeros(){
     int countRowZeros=0,countColZeros=0;
     for(int i = 0; i < N; i++){
