@@ -11,7 +11,7 @@ public:
     krawedz(char row, char col, double ogr);
     ~krawedz();
     void set(char row, char col, double ogr);
-    void show();
+    void show(int tabs,bool node);
 
 private:
     int h;
