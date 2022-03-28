@@ -21,6 +21,8 @@ public:
     void stepFive();
     void stepSix();
     void stepSeven();
+    void stepEight();
+    void stepNine();
 
     double metodaWegierskaKrok1();
     double metodaWegierskaKrok2();

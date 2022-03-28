@@ -137,6 +137,13 @@ void little::stepSeven(){
         }
     }
 }
+void little::stepEight(){
+
+}
+void little::stepNine(){
+    NM[iKrawedz[0]][iKrawedz[1]] = 999;
+    stepOne(false);
+}
 double little::metodaWegierskaKrok1(){
     double Min = 0 ;
     double SUM = 0;
