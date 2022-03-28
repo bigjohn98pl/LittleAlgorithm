@@ -29,19 +29,21 @@ void nodeBT::set(char row, char col, double ogr){
     right = NULL;
 
 }
-
+void nodeBT::setLimit(double ogr){
+    limit = ogr;
+}
 void nodeBT::show(int tabs,bool node){
-    for (int i=0;i < tabs ; i++ ) {
-        cout << "\t";
-    }
+    tabsInsert(tabs);
     if(node){
-        cout << setw(3) << "|" << name  << setw(3) << limit << "|";
+        cout  << "|" << setw(3) << name  << setw(3) << limit << "|";
     }
     else{
-       cout << setw(3) <<"|" << name << "*" << setw(3) << limit << "|";
+        name.push_back('*');
+       cout  <<"|" << setw(3) << name << setw(3) << limit << "|";
     }
-//    for (int i=0;i < tabs ; i++ ) {
-//        cout << "\t";
-//    }
-//    cout << setw(8) <<"ogr. : "     << setw(4)  << limit    << endl << endl;
+}
+void nodeBT::tabsInsert(int amount){
+    for (int i=0;i < amount ; i++ ) {
+        cout << "\t";
+    }
 }

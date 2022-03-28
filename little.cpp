@@ -79,7 +79,6 @@ void little::stepOne(bool show){
 }
 void little::stepTwo(){
     double suma=0,karaMax=0;
-    next = head;
     int* iMin;
     for(int i = 0; i < NM.N; i++){
         for(int j = 0 ; j < NM.M ; j++){
@@ -95,7 +94,7 @@ void little::stepTwo(){
         }
     }
     kara = karaMax;
-    next->limit = ograniczenia[0];
+    head->limit = ograniczenia[0];
 }
 void little::stepTree(){
     ograniczenia[1] += ograniczenia[0]+kara;
@@ -104,10 +103,10 @@ void little::stepFour(){
     int wiersz = iKrawedz[0],   kolumna = iKrawedz[1];
 
     head->left = new nodeBT(NM.nameN[wiersz],NM.nameN[kolumna],ograniczenia[1]);
-
-    //next= head->right;
-    NM.delRowCol(iKrawedz[0],iKrawedz[1]);
+    head->left->top = head;
     head->right = new nodeBT(NM.nameN[wiersz],NM.nameN[kolumna],ograniczenia[0]);
+    head->right->top = head;
+    NM.delRowCol(iKrawedz[0],iKrawedz[1]);
 
 }
 void little::stepFive(){
@@ -122,16 +121,19 @@ void little::stepFive(){
 
 }
 void little::stepSix(){
-    head->right->limit = ograniczenia[0];
+
+    stepOne(false);
+    stepTwo();
+    stepTree();
+    head->right->right = new nodeBT(NM.nameN[iKrawedz[0]],NM.nameN[iKrawedz[1]],ograniczenia[0]);
 }
 void little::stepSeven(){
-    nodeBT *next = head->right;
     if(NM.N == 2 && NM.M == 2){
         for(int i=0; i<NM.N ; i++){
             for(int j=0; j< NM.M; j++){
                 if( (i == j) && ( NM[i][j] == 0 ) ){
-                    next->right = new nodeBT();
-                    next = next->right;
+                    head->right = new nodeBT(NM.nameN[i],NM.nameM[i],ograniczenia[0]);
+                    head = head->right;
                 }
             }
         }
@@ -247,22 +249,29 @@ void little::showData(){
 
 void little::showGraph(){
     int tabs =2;
-    while(head->left != NULL && head->right != NULL){
-        head->show(tabs,true);
+    head->show(tabs,true);
+    cout << endl;
+    while( head->right != NULL){
+        head->tabsInsert(tabs);
+        cout << "/" << setw(7) << "\\";
         cout << endl;
-        for(int i =0 ; i<tabs;i++){
-            cout << "\t";
-        }
-        cout << setw(4)<< "/" << setw(4) << "\\";
-        cout << endl;
-        tabs--;
         if(head->left){
-            head->left->show(tabs,false);
+            head->left->show(tabs-1,false);
         }
+        else{
+            head->tabsInsert(tabs-1);
+            cout << setw(8) << "| NULL |";
+        }
+
         if(head->right){
-            head->right->show(tabs,true);
+            head->right->show(1,true);
+        }
+        else{
+            head->tabsInsert(tabs);
+            cout << setw(8) << "| NULL |";
         }
         cout << endl;
         head = head->right;
+        tabs++;
     }
 }

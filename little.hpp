@@ -38,7 +38,6 @@ private:
     double ograniczenia[2];
     double kara;
     nodeBT *head;
-    nodeBT *next;
 };
 
 
