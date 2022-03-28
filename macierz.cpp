@@ -27,6 +27,7 @@ macierz::macierz(int n, int m) {
     {
         nameN.push_back('A'+i);
     }
+
 }
 vector<double> &macierz::operator [](int i) {
     return (tablica.at(i));

@@ -9,6 +9,7 @@ using namespace std;
 
 class little{
 public:
+
     little();
     little(int row, int col);
     little(vector<vector<double>> Tab);

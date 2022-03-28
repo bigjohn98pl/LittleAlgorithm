@@ -6,6 +6,7 @@
 class krawedz
 {
 public:
+
     krawedz();
     krawedz(char row, char col, double ogr);
     ~krawedz();

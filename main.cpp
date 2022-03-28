@@ -7,6 +7,7 @@ int main()
 {
     static vector<vector<double>> Tab2 = {{999,1,1,2,3},{3,999,2,5,6},{5,4,999,3,7},{8,4,3,999,2},{7,7,5,6,999}};
     little problem1(Tab2);
+
     problem1.showArray();
     problem1.wypiszKrok1Wegierski();
     problem1.metodaWegierskaKrok1();

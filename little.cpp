@@ -32,6 +32,7 @@ little::little(int row, int col)
     NM.M = col;
     kara = 0;
     head = new krawedz;
+
 }
 little::little(vector<vector<double>> Tab){
     NM.N = Tab.size();

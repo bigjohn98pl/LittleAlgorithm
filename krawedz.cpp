@@ -26,6 +26,7 @@ void krawedz::set(char row, char col, double ogr){
     oznaczenie.push_back(col);
     lewa = NULL;
     prawa = NULL;
+
 }
 
 void krawedz::show(){

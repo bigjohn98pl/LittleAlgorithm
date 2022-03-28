@@ -31,6 +31,7 @@ public:
     void delRowCol(int row, int col);
     bool haveZeros();
 
+
     double operator ()(int i, int j);
     vector<double>& operator [](int i);
 
