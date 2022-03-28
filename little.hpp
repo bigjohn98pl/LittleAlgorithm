@@ -31,7 +31,7 @@ public:
     void wypiszKrok2Wegierski();
     void showData();
     void showArray();
-
+    void showGraph();
 private:
 
     macierz NM;

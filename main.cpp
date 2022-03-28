@@ -15,13 +15,12 @@ int main()
     problem1.metodaWegierskaKrok2();
     problem1.showArray();
     problem1.krokDrugi();
-    problem1.showArray();
     problem1.krokTrzeci();
-    problem1.showArray();
     problem1.krokCzwarty();
     problem1.showArray();
     problem1.krokPiaty();
     problem1.showArray();
     problem1.showData();
+    problem1.showGraph();
     return 0;
 }

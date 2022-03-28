@@ -29,9 +29,18 @@ void krawedz::set(char row, char col, double ogr){
 
 }
 
-void krawedz::show(){
-    cout << "Wezel: " << oznaczenie << endl;
-    cout << "wiersz: " << 4 << endl;
-    cout << "kolumna: " << 4 << endl;
-    cout << "ograniczenie: " << ograniczenieDolne << endl;
+void krawedz::show(int tabs,bool node){
+    for (int i=0;i < tabs ; i++ ) {
+        cout << "\t";
+    }
+    if(node){
+        cout << setw(3) << "|" << oznaczenie  << setw(3) << ograniczenieDolne << "|";
+    }
+    else{
+       cout << setw(3) <<"|" << oznaczenie << "*" << setw(3) << ograniczenieDolne << "|";
+    }
+//    for (int i=0;i < tabs ; i++ ) {
+//        cout << "\t";
+//    }
+//    cout << setw(8) <<"ogr. : "     << setw(4)  << ograniczenieDolne    << endl << endl;
 }

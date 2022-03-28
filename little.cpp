@@ -220,3 +220,25 @@ void little::showData(){
     cout << "Kara: " << kara << endl;
     cout << "Krawedz: " << iKrawedz[0]+1 << iKrawedz[1]+1 << endl;
 }
+
+void little::showGraph(){
+    int tabs =2;
+    while(head->lewa != NULL && head->prawa != NULL){
+        head->show(tabs,true);
+        cout << endl;
+        for(int i =0 ; i<tabs;i++){
+            cout << "\t";
+        }
+        cout << setw(4)<< "/" << setw(4) << "\\";
+        cout << endl;
+        tabs--;
+        if(head->lewa){
+        head->lewa->show(tabs,false);
+        }
+        if(head->prawa){
+        head->prawa->show(tabs,true);
+        }
+        cout << endl;
+        head = head->prawa;
+    }
+}
