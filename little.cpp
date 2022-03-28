@@ -1,4 +1,4 @@
-#include "krawedz.hpp"
+#include "nodeBT.hpp"
 #include "little.hpp"
 
 little::little()
@@ -10,7 +10,7 @@ little::little()
     NM.N = ROW;
     NM.M = COL;
     kara = 0;
-    head = new krawedz;
+    head = new nodeBT;
 }
 little::little(int row, int col)
 {
@@ -31,7 +31,7 @@ little::little(int row, int col)
     NM.N = row;
     NM.M = col;
     kara = 0;
-    head = new krawedz;
+    head = new nodeBT;
 
 }
 little::little(vector<vector<double>> Tab){
@@ -52,7 +52,7 @@ little::little(vector<vector<double>> Tab){
     NM.N = ROW;
     NM.M = COL;
     kara = 0;
-    head = new krawedz;
+    head = new nodeBT;
 }
 little::~little(){
 
@@ -95,7 +95,7 @@ void little::stepTwo(){
         }
     }
     kara = karaMax;
-    next->ograniczenieDolne = ograniczenia[0];
+    next->limit = ograniczenia[0];
 }
 void little::stepTree(){
     ograniczenia[1] += ograniczenia[0]+kara;
@@ -103,11 +103,11 @@ void little::stepTree(){
 void little::stepFour(){
     int wiersz = iKrawedz[0],   kolumna = iKrawedz[1];
 
-    head->lewa = new krawedz(NM.nameN[wiersz],NM.nameN[kolumna],ograniczenia[1]);
+    head->left = new nodeBT(NM.nameN[wiersz],NM.nameN[kolumna],ograniczenia[1]);
 
-    next= head->prawa;
+    //next= head->right;
     NM.delRowCol(iKrawedz[0],iKrawedz[1]);
-    next = new krawedz(NM.nameN[wiersz],NM.nameN[kolumna],ograniczenia[0]);
+    head->right = new nodeBT(NM.nameN[wiersz],NM.nameN[kolumna],ograniczenia[0]);
 
 }
 void little::stepFive(){
@@ -122,16 +122,16 @@ void little::stepFive(){
 
 }
 void little::stepSix(){
-    head->prawa->ograniczenieDolne = ograniczenia[0];
+    head->right->limit = ograniczenia[0];
 }
 void little::stepSeven(){
-    krawedz *next = head->prawa;
+    nodeBT *next = head->right;
     if(NM.N == 2 && NM.M == 2){
         for(int i=0; i<NM.N ; i++){
             for(int j=0; j< NM.M; j++){
                 if( (i == j) && ( NM[i][j] == 0 ) ){
-                    next->prawa = new krawedz();
-                    next = next->prawa;
+                    next->right = new nodeBT();
+                    next = next->right;
                 }
             }
         }
@@ -247,7 +247,7 @@ void little::showData(){
 
 void little::showGraph(){
     int tabs =2;
-    while(head->lewa != NULL && head->prawa != NULL){
+    while(head->left != NULL && head->right != NULL){
         head->show(tabs,true);
         cout << endl;
         for(int i =0 ; i<tabs;i++){
@@ -256,13 +256,13 @@ void little::showGraph(){
         cout << setw(4)<< "/" << setw(4) << "\\";
         cout << endl;
         tabs--;
-        if(head->lewa){
-            head->lewa->show(tabs,false);
+        if(head->left){
+            head->left->show(tabs,false);
         }
-        if(head->prawa){
-            head->prawa->show(tabs,true);
+        if(head->right){
+            head->right->show(tabs,true);
         }
         cout << endl;
-        head = head->prawa;
+        head = head->right;
     }
 }

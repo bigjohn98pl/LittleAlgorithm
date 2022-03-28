@@ -1,6 +1,6 @@
 #include "global.hpp"
 #include "little.hpp"
-#include "krawedz.hpp"
+#include "nodeBT.hpp"
 
 //static double Tab2[ROW][COL] = {{999,1,1,2,3},{3,999,2,5,6},{5,4,999,3,7},{8,4,3,999,2},{7,7,5,6,999}};
 int main()

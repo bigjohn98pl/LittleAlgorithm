@@ -2,7 +2,7 @@
 #define LITTLE_HPP
 
 #include "macierz.hpp"
-#include "krawedz.hpp"
+#include "nodeBT.hpp"
 #include "global.hpp"
 
 using namespace std;
@@ -37,8 +37,8 @@ private:
     int iKrawedz[2];
     double ograniczenia[2];
     double kara;
-    krawedz *head;
-    krawedz *next;
+    nodeBT *head;
+    nodeBT *next;
 };
 
 
