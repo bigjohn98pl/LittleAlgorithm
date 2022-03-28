@@ -57,31 +57,27 @@ little::little(vector<vector<double>> Tab){
 little::~little(){
 
 }
-double little::metodaWegierskaKrok1(){
-    double Min =0 ;
-    for(int i = 0; i<NM.N; i++){
-        Min = NM[i][NM.indexMinRow(i)];
-        ograniczenia[0] = ograniczenia[0] + Min;
-        for(int j=0 ; j<NM.M ; j++){
-            NM[i][j] = NM[i][j] - Min;
+void little::stepOne(bool show){
+    if(show){
+        wypiszKrok1Wegierski();
+        if(!NM.haveZerosRows()){
+            ograniczenia[0] += metodaWegierskaKrok1();
+        }
+        wypiszKrok2Wegierski();
+        if(!NM.haveZerosColums()){
+            ograniczenia[0] += metodaWegierskaKrok2();
         }
     }
-
-    return Min;
-}
-
-double little::metodaWegierskaKrok2(){
-    double Min =0 ;
-    for(int i = 0; i < NM.N; i++){
-        Min = NM[NM.indexMinCol(i)][i];
-        ograniczenia[0] = ograniczenia[0] + Min;
-        for(int j=0 ; j<NM.N ; j++){
-            NM[j][i] = NM[j][i] - Min;
+    else{
+        if(!NM.haveZerosRows()){
+            ograniczenia[0] += metodaWegierskaKrok1();
+        }
+        if(!NM.haveZerosColums()){
+            ograniczenia[0] += metodaWegierskaKrok2();
         }
     }
-    return Min;
 }
-void little::krokDrugi(){
+void little::stepTwo(){
     double suma=0,karaMax=0;
     next = head;
     int* iMin;
@@ -101,31 +97,34 @@ void little::krokDrugi(){
     kara = karaMax;
     next->ograniczenieDolne = ograniczenia[0];
 }
-void little::krokTrzeci(){
+void little::stepTree(){
     ograniczenia[1] += ograniczenia[0]+kara;
-    int wiersz = iKrawedz[0],   kolumna = iKrawedz[1];
-    next= head->prawa;
-    head->lewa = new krawedz(NM.nameN[wiersz],NM.nameN[kolumna],ograniczenia[1]);
-    head->prawa = new krawedz(NM.nameN[wiersz],NM.nameN[kolumna],ograniczenia[0]);
 }
-void little::krokCzwarty(){
+void little::stepFour(){
+    int wiersz = iKrawedz[0],   kolumna = iKrawedz[1];
+
+    head->lewa = new krawedz(NM.nameN[wiersz],NM.nameN[kolumna],ograniczenia[1]);
+
+    next= head->prawa;
     NM.delRowCol(iKrawedz[0],iKrawedz[1]);
+    next = new krawedz(NM.nameN[wiersz],NM.nameN[kolumna],ograniczenia[0]);
 
 }
-void little::krokPiaty(){
+void little::stepFive(){
     int h = 0;
-    while(!NM.haveZeros()){
-        metodaWegierskaKrok1();
-        metodaWegierskaKrok2();
-        h++;
+    if(!NM.haveZerosRows()){
+        h += metodaWegierskaKrok1();
+    }
+    if(NM.haveZerosColums()){
+        h += metodaWegierskaKrok2();
     }
     ograniczenia[0] += h;
 
 }
-void little::krokSzosty(){
+void little::stepSix(){
     head->prawa->ograniczenieDolne = ograniczenia[0];
 }
-void little::krokSiodmy(){
+void little::stepSeven(){
     krawedz *next = head->prawa;
     if(NM.N == 2 && NM.M == 2){
         for(int i=0; i<NM.N ; i++){
@@ -137,6 +136,32 @@ void little::krokSiodmy(){
             }
         }
     }
+}
+double little::metodaWegierskaKrok1(){
+    double Min = 0 ;
+    double SUM = 0;
+    for(int i = 0; i<NM.N; i++){
+        Min = NM[i][NM.indexMinRow(i)];
+        SUM = SUM + Min;
+        for(int j=0 ; j<NM.M ; j++){
+            NM[i][j] = NM[i][j] - Min;
+        }
+    }
+
+    return SUM;
+}
+
+double little::metodaWegierskaKrok2(){
+    double Min = 0 ;
+    double SUM = 0;
+    for(int i = 0; i < NM.N; i++){
+        Min = NM[NM.indexMinCol(i)][i];
+        SUM = SUM + Min;
+        for(int j=0 ; j<NM.N ; j++){
+            NM[j][i] = NM[j][i] - Min;
+        }
+    }
+    return SUM;
 }
 void little::wypiszKrok1Wegierski(){
     for(int j = 0; j<NM.N; j++){

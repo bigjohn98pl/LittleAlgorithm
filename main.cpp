@@ -9,16 +9,12 @@ int main()
     little problem1(Tab2);
 
     problem1.showArray();
-    problem1.wypiszKrok1Wegierski();
-    problem1.metodaWegierskaKrok1();
-    problem1.wypiszKrok2Wegierski();
-    problem1.metodaWegierskaKrok2();
+    problem1.stepOne(true);
+    problem1.stepTwo();
+    problem1.stepTree();
+    problem1.stepFour();
     problem1.showArray();
-    problem1.krokDrugi();
-    problem1.krokTrzeci();
-    problem1.krokCzwarty();
-    problem1.showArray();
-    problem1.krokPiaty();
+    problem1.stepFive();
     problem1.showArray();
     problem1.showData();
     problem1.showGraph();
