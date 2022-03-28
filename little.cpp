@@ -73,7 +73,6 @@ double little::metodaWegierskaKrok1(){
 double little::metodaWegierskaKrok2(){
     double Min =0 ;
     for(int i = 0; i < NM.N; i++){
-
         Min = NM[NM.indexMinCol(i)][i];
         ograniczenia[0] = ograniczenia[0] + Min;
         for(int j=0 ; j<NM.N ; j++){

@@ -31,6 +31,7 @@ public:
     void delRowCol(int row, int col);
     bool haveZeros();
     bool haveZerosRows();
+    bool haveZerosColums();
 
 
     double operator ()(int i, int j);
