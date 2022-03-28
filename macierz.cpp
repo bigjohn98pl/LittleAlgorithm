@@ -270,29 +270,7 @@ bool macierz::haveZerosColums(){
         return false;
     }
 }
-bool macierz::haveZeros(){
-    int countRowZeros=0,countColZeros=0;
-    for(int i = 0; i < N; i++){
-        for(int j = 0 ; j < M ; j++){
-            if(tablica[i][j] == 0){
-                countRowZeros++;
-            }
-        }
-    }
-    for(int i = 0; i < N; i++){
-        for(int j = 0 ; j < M ; j++){
-            if(tablica[j][i] == 0){
-                countColZeros++;
-            }
-        }
-    }
-    if(countRowZeros > 0 && countColZeros >0){
-        return true;
-    }
-    else{
-        return false;
-    }
-}
+
 //=========================================================================================
 
 macierz& macierz::operator =(macierz& B) {

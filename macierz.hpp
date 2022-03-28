@@ -29,7 +29,6 @@ public:
     int* indexMin(int Row, int Col);
     macierz& operator =(macierz& B);
     void delRowCol(int row, int col);
-    bool haveZeros();
     bool haveZerosRows();
     bool haveZerosColums();
 
