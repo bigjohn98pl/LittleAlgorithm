@@ -15,6 +15,7 @@ int main()
     problem1.stepFour();
     problem1.showArray();
     problem1.stepFive();
+
     problem1.stepSix();
     problem1.showArray();
     problem1.showData();

@@ -28,6 +28,7 @@ public:
     double metodaWegierskaKrok2();
     void wypiszKrok1Wegierski();
     void wypiszKrok2Wegierski();
+    void addNode(char& row, char& col, double& limit);
     void showData();
     void showArray();
     void showGraph();

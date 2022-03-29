@@ -94,18 +94,18 @@ void little::stepTwo(){
         }
     }
     kara = karaMax;
-    head->limit = ograniczenia[0];
+    *head->limit = ograniczenia[0];
 }
 void little::stepTree(){
-    ograniczenia[1] += ograniczenia[0]+kara;
+    ograniczenia[1] = ograniczenia[0]+kara;
 }
 void little::stepFour(){
     int wiersz = iKrawedz[0],   kolumna = iKrawedz[1];
 
-    head->left = new nodeBT(NM.nameN[wiersz],NM.nameN[kolumna],ograniczenia[1]);
-    head->left->top = head;
-    head->right = new nodeBT(NM.nameN[wiersz],NM.nameN[kolumna],ograniczenia[0]);
-    head->right->top = head;
+
+    addNode(NM.nameN[wiersz],NM.nameN[kolumna],ograniczenia[1]);
+    addNode(NM.nameN[wiersz],NM.nameN[kolumna],ograniczenia[0]);
+
     NM.delRowCol(iKrawedz[0],iKrawedz[1]);
 
 }
@@ -125,18 +125,17 @@ void little::stepSix(){
     stepOne(false);
     stepTwo();
     stepTree();
-    head->right->right = new nodeBT(NM.nameN[iKrawedz[0]],NM.nameN[iKrawedz[1]],ograniczenia[0]);
+    stepFour();
 }
 void little::stepSeven(){
     if(NM.N == 2 && NM.M == 2){
-        for(int i=0; i<NM.N ; i++){
-            for(int j=0; j< NM.M; j++){
-                if( (i == j) && ( NM[i][j] == 0 ) ){
-                    head->right = new nodeBT(NM.nameN[i],NM.nameM[i],ograniczenia[0]);
-                    head = head->right;
-                }
-            }
-        }
+        addNode(NM.nameN.front(),NM.nameM.front(),ograniczenia[0]);
+        NM.nameN.pop_back();
+        NM.nameM.pop_back();
+
+        addNode(NM.nameN.front(),NM.nameM.front(),ograniczenia[0]);
+        NM.nameN.pop_back();
+        NM.nameM.pop_back();
     }
 }
 void little::stepEight(){
@@ -212,7 +211,28 @@ void little::wypiszKrok2Wegierski(){
     }
     cout << endl;
 }
+void little::addNode(char& row, char& col, double& limit){
+    //nodeBT* tmp = head;
+    static nodeBT* last = head;
+    if(*last->limit < limit && last->left == NULL){
+        last->left = new nodeBT(row,col,limit);
+    }
+    if(*last->limit == limit && last->right == NULL){
+        last->right = new nodeBT(row,col,limit);
+        last = last->right;
+    }
+//    if(limit > *last->limit){
+//        if(last->left == NULL){
+//            last->left  = new nodeBT(row,col,limit);
+//        }
+//        else{
+//            last->right = new nodeBT(row,col,limit);
+//        }
+//    }
+//    head = head->right;
 
+//    head = tmp;
+}
 void little::showArray(){
     cout << endl;
     cout << setw(6) << NM.nameM[0];
