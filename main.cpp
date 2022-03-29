@@ -10,13 +10,13 @@ int main()
 
     problem1.showArray();
     problem1.stepOne(true);
-    problem1.stepTwo();
-    problem1.stepTree();
-    problem1.stepFour();
-    problem1.showArray();
-    problem1.stepFive();
+//    problem1.stepTwo();
+//    problem1.stepTree();
+//    problem1.stepFour();
+//    problem1.showArray();
+//    problem1.stepFive();
 
-    problem1.stepSix();
+//    problem1.stepSix();
     problem1.showArray();
     problem1.showData();
     problem1.showGraph();

@@ -11,6 +11,7 @@ little::little()
     NM.M = COL;
     kara = 0;
     head = new nodeBT;
+    next = head;
 }
 little::little(int row, int col)
 {
@@ -32,7 +33,7 @@ little::little(int row, int col)
     NM.M = col;
     kara = 0;
     head = new nodeBT;
-
+    next = head;
 }
 little::little(vector<vector<double>> Tab){
     NM.N = Tab.size();
@@ -53,10 +54,12 @@ little::little(vector<vector<double>> Tab){
     NM.M = COL;
     kara = 0;
     head = new nodeBT;
+    next = head;
 }
 little::~little(){
 
 }
+nodeBT* little::next = new nodeBT;
 void little::stepOne(bool show){
     if(show){
         wypiszKrok1Wegierski();
@@ -76,6 +79,8 @@ void little::stepOne(bool show){
             ograniczenia[0] += metodaWegierskaKrok2();
         }
     }
+
+    stepTwo();
 }
 void little::stepTwo(){
     double suma=0,karaMax=0;
@@ -94,20 +99,25 @@ void little::stepTwo(){
         }
     }
     kara = karaMax;
-    *head->limit = ograniczenia[0];
+    *next->limit = ograniczenia[0];
+
+    stepTree();
 }
 void little::stepTree(){
     ograniczenia[1] = ograniczenia[0]+kara;
+
+    stepFour();
 }
 void little::stepFour(){
     int wiersz = iKrawedz[0],   kolumna = iKrawedz[1];
 
 
     addNode(NM.nameN[wiersz],NM.nameN[kolumna],ograniczenia[1]);
-    addNode(NM.nameN[wiersz],NM.nameN[kolumna],ograniczenia[0]);
+    next = addNode(NM.nameN[wiersz],NM.nameN[kolumna],ograniczenia[0]);
 
     NM.delRowCol(iKrawedz[0],iKrawedz[1]);
-
+    showArray();
+    stepFive();
 }
 void little::stepFive(){
     int h = 0;
@@ -119,21 +129,24 @@ void little::stepFive(){
     }
     ograniczenia[0] += h;
 
+    stepSix();
 }
 void little::stepSix(){
 
-    stepOne(false);
-    stepTwo();
-    stepTree();
-    stepFour();
+    if(NM.N == 2 && NM.M == 2){
+        stepSeven();
+    }
+    else{
+        stepOne(false);
+    }
 }
 void little::stepSeven(){
     if(NM.N == 2 && NM.M == 2){
-        addNode(NM.nameN.front(),NM.nameM.front(),ograniczenia[0]);
+        addNode(NM.nameN.back(),NM.nameM.back(),ograniczenia[0]);
         NM.nameN.pop_back();
         NM.nameM.pop_back();
 
-        addNode(NM.nameN.front(),NM.nameM.front(),ograniczenia[0]);
+        addNode(NM.nameN.back(),NM.nameM.back(),ograniczenia[0]);
         NM.nameN.pop_back();
         NM.nameM.pop_back();
     }
@@ -211,7 +224,7 @@ void little::wypiszKrok2Wegierski(){
     }
     cout << endl;
 }
-void little::addNode(char& row, char& col, double& limit){
+nodeBT* little::addNode(char& row, char& col, double& limit){
     //nodeBT* tmp = head;
     static nodeBT* last = head;
     if(*last->limit < limit && last->left == NULL){
@@ -221,17 +234,7 @@ void little::addNode(char& row, char& col, double& limit){
         last->right = new nodeBT(row,col,limit);
         last = last->right;
     }
-//    if(limit > *last->limit){
-//        if(last->left == NULL){
-//            last->left  = new nodeBT(row,col,limit);
-//        }
-//        else{
-//            last->right = new nodeBT(row,col,limit);
-//        }
-//    }
-//    head = head->right;
-
-//    head = tmp;
+    return last;
 }
 void little::showArray(){
     cout << endl;

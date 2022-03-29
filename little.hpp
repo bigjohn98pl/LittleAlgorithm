@@ -28,7 +28,7 @@ public:
     double metodaWegierskaKrok2();
     void wypiszKrok1Wegierski();
     void wypiszKrok2Wegierski();
-    void addNode(char& row, char& col, double& limit);
+    nodeBT* addNode(char& row, char& col, double& limit);
     void showData();
     void showArray();
     void showGraph();
@@ -39,6 +39,7 @@ private:
     double ograniczenia[2];
     double kara;
     nodeBT *head;
+    static nodeBT *next;
 };
 
 
