@@ -112,8 +112,8 @@ void little::stepFour(){
     int wiersz = iKrawedz[0],   kolumna = iKrawedz[1];
 
 
-    addNode(NM.nameN[wiersz],NM.nameN[kolumna],ograniczenia[1]);
-    next = addNode(NM.nameN[wiersz],NM.nameN[kolumna],ograniczenia[0]);
+    addNode(NM.nameN[wiersz],NM.nameM[kolumna],ograniczenia[1]);
+    next = addNode(NM.nameN[wiersz],NM.nameM[kolumna],ograniczenia[0]);
 
     NM.delRowCol(iKrawedz[0],iKrawedz[1]);
     showArray();
@@ -141,14 +141,17 @@ void little::stepSix(){
     }
 }
 void little::stepSeven(){
-    if(NM.N == 2 && NM.M == 2){
-        addNode(NM.nameN.back(),NM.nameM.back(),ograniczenia[0]);
-        NM.nameN.pop_back();
-        NM.nameM.pop_back();
-
-        addNode(NM.nameN.back(),NM.nameM.back(),ograniczenia[0]);
-        NM.nameN.pop_back();
-        NM.nameM.pop_back();
+    if(NM.N == 2 && NM.M == 2 && ( (NM[0][0] == 0 && NM[1][1] == 0) || (NM[0][1] == 0 && NM[1][0] == 0)) ){
+        for(int i=0; i<NM.N ; i++){
+            for(int j=0; j<NM.M ; j++){
+                if(NM[i][j] == 0 ){
+                    addNode(NM.nameN[i],NM.nameM[j],ograniczenia[0]);
+                }
+            }
+        }
+    }
+    else{
+        stepEight();
     }
 }
 void little::stepEight(){
