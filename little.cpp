@@ -155,7 +155,13 @@ void little::stepSeven(){
     }
 }
 void little::stepEight(){
-
+    nodeBT *last = next->top;
+    if(last->left->limit < last->right->limit){
+        stepNine();
+    }
+    else{
+        stepTwo();
+    }
 }
 void little::stepNine(){
     NM[iKrawedz[0]][iKrawedz[1]] = 999;
@@ -232,9 +238,11 @@ nodeBT* little::addNode(char& row, char& col, double& limit){
     static nodeBT* last = head;
     if(*last->limit < limit && last->left == NULL){
         last->left = new nodeBT(row,col,limit);
+        last->left->top = last;
     }
     if(*last->limit == limit && last->right == NULL){
         last->right = new nodeBT(row,col,limit);
+        last->right->top = last;
         last = last->right;
     }
     return last;

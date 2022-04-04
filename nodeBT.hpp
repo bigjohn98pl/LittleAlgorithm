@@ -19,6 +19,7 @@ private:
     string *name;
     nodeBT* left;
     nodeBT* right;
+    nodeBT* top;
 
     friend class little;
 };

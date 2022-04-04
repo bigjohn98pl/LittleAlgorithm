@@ -9,6 +9,7 @@ nodeBT::nodeBT()
     *name->insert(name->begin(),2,'X');
     left = NULL;
     right = NULL;
+    top = NULL;
 }
 nodeBT::~nodeBT()
 {
@@ -16,8 +17,10 @@ nodeBT::~nodeBT()
     delete name;
     left = NULL;
     right = NULL;
+    top = NULL;
     delete left;
     delete right;
+    delete top;
 
 }
 nodeBT::nodeBT(char& row, char& col, double& ogr){
@@ -30,6 +33,7 @@ nodeBT::nodeBT(char& row, char& col, double& ogr){
     name->push_back(col);
     left = NULL;
     right = NULL;
+    top = NULL;
 }
 
 
