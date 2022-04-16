@@ -13,9 +13,10 @@ class macierz {
 public:
 
     macierz();
-    macierz(int n, int m);
-    macierz(double tab[ROW][COL]);
+    macierz(const int _n,const int _m);
+    macierz(double **tab, int _n, int _m);
     macierz(macierz& X);
+    macierz( vector< vector< double>> Tab);
     ~macierz();
 
     void random(int from = 1, int to = 10);

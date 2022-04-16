@@ -13,10 +13,9 @@ macierz::macierz() {
     {
         nameM.push_back('A'+i);
     }
- }
-macierz::macierz(int n, int m) {
-    N = n;
-    M = m;
+}
+macierz::macierz(const int _n,const int _m) : N(_n), M(_m)
+{
     tablica.reserve(N);
     for (int i = 0; i < N; i++)
     {
@@ -25,16 +24,32 @@ macierz::macierz(int n, int m) {
     }
     for (int i = 0; i < M; i++)
     {
-        nameN.push_back('A'+i);
+        nameM.push_back('A'+i);
     }
 
 }
+
 vector<double> &macierz::operator [](int i) {
     return (tablica.at(i));
 }
-macierz::macierz(double tab[ROW][COL]) {
-    N = ROW;
-    M = COL;
+
+macierz::macierz( vector< vector< double>> Tab){
+    N = Tab.size();
+    M = Tab[0].size();
+    tablica.swap(Tab);
+    for (int i = 0; i < N; i++)
+    {
+        nameN.push_back('A'+i);
+    }
+    for (int i = 0; i < M; i++)
+    {
+        nameM.push_back('A'+i);
+    }
+}
+
+macierz::macierz(double **tab, int _n, int _m) {
+    N = _n;
+    M = _m;
     tablica.reserve(N);
     for (int i = 0; i < N; i++)
     {
@@ -225,7 +240,7 @@ int* macierz::indexMin(int Row, int Col){
 void macierz::delRowCol(int row, int col){
 
     if(N > 1 && M > 1 && row <= N-1 && col <= M-1 ){
-        tablica[col][row] = 999;
+        //tablica[col][row] = 999;
         for (int i=0; i<N ;i++ ) {
             tablica[i].erase(tablica[i].begin()+col);
         }
@@ -238,37 +253,44 @@ void macierz::delRowCol(int row, int col){
 }
 bool macierz::haveZerosRows(){
     int countRowZeros=0;
+    int countRowZerosLastRow = 0;
+
     for(int i = 0; i < N; i++){
+
         for(int j = 0 ; j < M ; j++){
+
             if(tablica[i][j] == 0){
                 countRowZeros++;
             }
         }
+        if(countRowZeros == countRowZerosLastRow){
+            return false;
+        }
     }
 
-    if(countRowZeros > 0 && countRowZeros == N){
-        return true;
-    }
-    else{
-        return false;
-    }
+    return true;
 }
 bool macierz::haveZerosColums(){
     int countColZeros=0;
+    int countColZerosLastCol = 0;
+
     for(int i = 0; i < N; i++){
+
+        countColZerosLastCol = countColZeros;
+
         for(int j = 0 ; j < M ; j++){
+
             if(tablica[j][i] == 0){
                 countColZeros++;
             }
         }
+
+        if(countColZeros == countColZerosLastCol){
+            return false;
+        }
     }
 
-    if(countColZeros > 0 && countColZeros == N){
-        return true;
-    }
-    else{
-        return false;
-    }
+    return true;
 }
 
 //=========================================================================================
