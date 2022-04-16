@@ -4,7 +4,29 @@ nodeBT::nodeBT()
 {
     limit = new double;
     name = new string;
-
+    M = new macierz(2,2);
+    *limit = 0;
+    *name->insert(name->begin(),2,'X');
+    left = NULL;
+    right = NULL;
+    top = NULL;
+}
+nodeBT::nodeBT(macierz& _M)
+{
+    limit = new double;
+    name = new string;
+    M = new macierz(_M);
+    *limit = 0;
+    *name->insert(name->begin(),2,'X');
+    left = NULL;
+    right = NULL;
+    top = NULL;
+}
+nodeBT::nodeBT(vector<vector<double>> Tab)
+{
+    limit = new double;
+    name = new string;
+    M = new macierz(Tab);
     *limit = 0;
     *name->insert(name->begin(),2,'X');
     left = NULL;
@@ -23,12 +45,12 @@ nodeBT::~nodeBT()
     delete top;
 
 }
-nodeBT::nodeBT(char& row, char& col, double& ogr){
+nodeBT::nodeBT(char& row, char& col, double& _limit,macierz _M){
 
     limit = new double;
     name = new string;
-
-    *limit = ogr;
+    M = new macierz(_M);
+    *limit = _limit;
     name->push_back(row);
     name->push_back(col);
     left = NULL;

@@ -1,12 +1,10 @@
 #include "macierz.hpp"
 
 macierz::macierz() {
-    N = 5;
-    M = 5;
-    tablica.reserve(N);
+    N = 1;
+    M = 1;
     for (int i = 0; i < N; i++)
     {
-        tablica[i].reserve(M);
         nameN.push_back('A'+i);
     }
     for (int i = 0; i < M; i++)
@@ -76,22 +74,11 @@ macierz::macierz(double **tab, int _n, int _m) {
 macierz::macierz(macierz& X) {
     N = X.N;
     M = X.M;
-    tablica.reserve(N);
-    nameN.reserve(N);
-    nameM.reserve(M);
-    for (int i = 0; i < X.N; i++)
-    {
-        tablica[i].reserve(M);
-    }
-    for (int i = 0; i < N; i++)
-    {
-        nameN[i] = X.nameN[i];
-        for (int j = 0; j < M; j++)
-        {
-            tablica[i][j] = X.tablica[i][j];
-            nameM[j] = X.nameM[j];
-        }
-    }
+
+    tablica = X.tablica;
+    nameN = X.nameN;
+    nameM = X.nameM;
+
 };
 macierz::~macierz() {
     N = 0;
@@ -227,7 +214,7 @@ int* macierz::indexMin(int Row, int Col){
     }
 
     for(int colums = 0; colums < M ; colums++){
-        if(colums != Row){
+        if(colums != Col){
             value = tablica[Row][colums];
             if((value <= minCol || minCol == -1) && colums != Col){
                 minCol = value;
@@ -240,7 +227,6 @@ int* macierz::indexMin(int Row, int Col){
 void macierz::delRowCol(int row, int col){
 
     if(N > 1 && M > 1 && row <= N-1 && col <= M-1 ){
-        //tablica[col][row] = 999;
         for (int i=0; i<N ;i++ ) {
             tablica[i].erase(tablica[i].begin()+col);
         }
@@ -250,12 +236,24 @@ void macierz::delRowCol(int row, int col){
         N--;
         M--;
     }
+    //tablica[N-1][M-1] = 999;
+    if(N == 2 && M == 2){
+        for(int i = 0 ; i<N ; i++){
+            for(int j = 0; j<M ; j++){
+                if(i == j && tablica[i][j] == 0){
+                    tablica[i][j] = 999;
+                }
+            }
+        }
+    }
 }
 bool macierz::haveZerosRows(){
     int countRowZeros=0;
     int countRowZerosLastRow = 0;
 
     for(int i = 0; i < N; i++){
+
+        countRowZerosLastRow = countRowZeros;
 
         for(int j = 0 ; j < M ; j++){
 
