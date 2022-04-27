@@ -291,6 +291,9 @@ bool macierz::haveZerosColums(){
     return true;
 }
 
+double macierz::get(const int &i,const int &j){
+    return tablica[i][j];
+}
 //=========================================================================================
 
 macierz& macierz::operator =(macierz& B) {

@@ -33,7 +33,7 @@ public:
     bool haveZerosRows();
     bool haveZerosColums();
 
-
+    double get(const int &i,const int &j);
     double operator ()(int i, int j);
     vector<double>& operator [](int i);
 
@@ -64,6 +64,7 @@ private:
     vector<char> nameM;
     vector<vector<double>> tablica;
     friend class little;
+    friend class nodeBT;
 };
 
 void showRowCol(macierz X);
