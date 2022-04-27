@@ -6,35 +6,37 @@ little::little()
     fill(ograniczenia, ograniczenia+2, 0);
     fill(iKrawedz, iKrawedz+2, 0);
     static vector<vector<double>> Tab2 = {{999,1,1,2,3},{3,999,2,5,6},{5,4,999,3,7},{8,4,3,999,2},{7,7,5,6,999}};
-    NM = new macierz(Tab2[0].size(),Tab2.size());
     kara = 0;
-    head = new nodeBT;
+    head = new nodeBT(Tab2);
     next = head;
 }
 
 little::little(int row, int col)
 {
-    NM = new macierz(row,col);
     fill(ograniczenia, ograniczenia+2, 0);
     fill(iKrawedz, iKrawedz+2, 0);
     kara = 0;
-    head = new nodeBT;
+
+
+    head = new nodeBT(*new macierz(row,col));
     next = head;
 }
 
 little::little(vector<vector<double>> Tab){
-    NM = new macierz(Tab);
+    //NM = new macierz(Tab);
     fill(ograniczenia, ograniczenia+2, 0);
     fill(iKrawedz, iKrawedz+2, 0);
 
     kara = 0;
-    head = new nodeBT(*NM);
+    head = new nodeBT(Tab);
     next = head;
 }
 little::~little(){
-    delete NM;
     delete head;
     delete next;
+
+    head = nullptr;
+    next = nullptr;
 }
 
 //nodeBT* little::next = new nodeBT;
@@ -42,19 +44,19 @@ little::~little(){
 void little::stepOne(bool show){
     if(show){
         wypiszKrok1Wegierski();
-        if(!(*NM).haveZerosRows()){
+        if(! next->M->haveZerosRows()){
             ograniczenia[0] += metodaWegierskaKrok1();
         }
         wypiszKrok2Wegierski();
-        if(!(*NM).haveZerosColums()){
+        if(!next->M->haveZerosColums()){
             ograniczenia[0] += metodaWegierskaKrok2();
         }
     }
     else{
-        if(!(*NM).haveZerosRows()){
+        if(! next->M->haveZerosRows()){
             ograniczenia[0] += metodaWegierskaKrok1();
         }
-        if(!(*NM).haveZerosColums()){
+        if(!next->M->haveZerosColums()){
             ograniczenia[0] += metodaWegierskaKrok2();
         }
     }
@@ -64,11 +66,11 @@ void little::stepOne(bool show){
 void little::stepTwo(){
     double suma=0,karaMax=0;
     int* iMin;
-    for(int i = 0; i < (*NM).N; i++){
-        for(int j = 0 ; j < (*NM).M ; j++){
-            if((*NM)[i][j] == 0){
-                iMin = (*NM).indexMin(i,j);
-                suma = (*NM)[iMin[0]][j] + (*NM)[i][iMin[1]];
+    for(int i = 0; i < next->M->N   ; i++){
+        for(int j = 0 ; j < next->M->M ; j++){
+            if(next->M->get(i,j) == 0.00){
+                iMin = next->M->indexMin(i,j);
+                suma = next->M->get(iMin[0],j) + next->M->get(i,iMin[1]);
                 if(suma > karaMax){
                     karaMax = suma;
                     iKrawedz[0] = i;
@@ -77,43 +79,50 @@ void little::stepTwo(){
             }
         }
     }
+
     kara = karaMax;
-    *next->limit = ograniczenia[0];//cos z tym
-    cout << kara << endl;
+    *next->limit = ograniczenia[0];
+
     stepTree();
 }
 void little::stepTree(){
+    int wiersz = iKrawedz[0],   kolumna = iKrawedz[1];
+
     ograniczenia[1] = ograniczenia[0]+kara;
+
+    next->left = new nodeBT(next->M->nameN[wiersz],next->M->nameM[kolumna],ograniczenia[1],*next->M);
+    cout << *next->left->name << endl;
 
     stepFour();
 }
 void little::stepFour(){
     int wiersz = iKrawedz[0],   kolumna = iKrawedz[1];
 
+    next->M->delRowCol(wiersz,kolumna);
 
-    addNode((*NM).nameN[wiersz],(*NM).nameM[kolumna],ograniczenia[1]);
-
-    next = addNode((*NM).nameN[wiersz],(*NM).nameM[kolumna],ograniczenia[0]);//cos z tym?
-
-    (*NM).delRowCol(iKrawedz[0],iKrawedz[1]);
     stepFive();
 }
 void little::stepFive(){
     int h = 0;
-    if(!(*NM).haveZerosRows()){
+
+    if(!next->M->haveZerosRows()){
         h += metodaWegierskaKrok1();
     }
-    if((*NM).haveZerosColums()){
+    if(next->M->haveZerosColums()){
         h += metodaWegierskaKrok2();
     }
     ograniczenia[0] += h;
-    *next->limit = ograniczenia[0];
-    showArray();
+
     stepSix();
 }
 void little::stepSix(){
+    int wiersz = iKrawedz[0],   kolumna = iKrawedz[1];
 
-    if((*NM).N == 2 && (*NM).M == 2){
+    next->right = new nodeBT(next->left->M->nameN[wiersz],next->left->M->nameM[kolumna],ograniczenia[0],*next->M);
+    cout << *next->right->name << endl;
+    next = next->right;
+
+    if(next->M->N == 2 && next->M->M == 2){
         stepSeven();
     }
     else{
@@ -121,11 +130,13 @@ void little::stepSix(){
     }
 }
 void little::stepSeven(){
-    if((*NM).N == 2 && (*NM).M == 2 && ( ((*NM)[0][0] == 0 && (*NM)[1][1] == 0) || ((*NM)[0][1] == 0 && (*NM)[1][0] == 0)) ){
-        for(int i=0; i<(*NM).N ; i++){
-            for(int j=0; j<(*NM).M ; j++){
-                if((*NM)[i][j] == 0 ){
-                    addNode((*NM).nameN[i],(*NM).nameM[j],ograniczenia[0]);
+    if(next->M->N == 2 && next->M->M == 2 && ( (next->M->get(0,0) == 0 && next->M->get(1,1) == 0) || (next->M->get(0,1) == 0 && next->M->get(1,0) == 0)) ){
+        for(int i=0; i<next->M->N ; i++){
+            for(int j=0; j<next->M->M ; j++){
+                if(next->M->get(i,j) == 0 ){
+
+                    next->right = new nodeBT(next->M->nameN[i],next->M->nameM[j],ograniczenia[0],*next->M);
+                    next = next->right;
                 }
             }
         }
@@ -135,7 +146,7 @@ void little::stepSeven(){
     }
 }
 void little::stepEight(){
-    nodeBT *last = next->top;
+    nodeBT *last = next;
     if(last->left->limit < last->right->limit){
         stepNine();
     }
@@ -144,17 +155,17 @@ void little::stepEight(){
     }
 }
 void little::stepNine(){
-    (*NM)[iKrawedz[0]][iKrawedz[1]] = 999;
+    next->M->tablica[iKrawedz[0]][iKrawedz[1]] = 999;
     stepOne(false);
 }
 double little::metodaWegierskaKrok1(){
     double Min = 0 ;
     double SUM = 0;
-    for(int i = 0; i<(*NM).N; i++){
-        Min = (*NM)[i][(*NM).indexMinRow(i)];
+    for(int i = 0; i<next->M->N; i++){
+        Min = next->M->get(i,next->M->indexMinRow(i));
         SUM = SUM + Min;
-        for(int j=0 ; j<(*NM).M ; j++){
-            (*NM)[i][j] = (*NM)[i][j] - Min;
+        for(int j=0 ; j<next->M->M ; j++){
+             next->M->tablica[i][j] = next->M->tablica[i][j] - Min;
         }
     }
 
@@ -164,97 +175,84 @@ double little::metodaWegierskaKrok1(){
 double little::metodaWegierskaKrok2(){
     double Min = 0 ;
     double SUM = 0;
-    for(int i = 0; i < (*NM).N; i++){
-        Min = (*NM)[(*NM).indexMinCol(i)][i];
+    for(int i = 0; i < next->M->N; i++){
+        Min = next->M->get(next->M->indexMinCol(i),i);
         SUM = SUM + Min;
-        for(int j=0 ; j<(*NM).N ; j++){
-            (*NM)[j][i] = (*NM)[j][i] - Min;
+        for(int j=0 ; j<next->M->N ; j++){
+            next->M->tablica[j][i] = next->M->tablica[j][i] - Min;
         }
     }
     return SUM;
 }
 void little::wypiszKrok1Wegierski(){
-    for(int j = 0; j<(*NM).N; j++){
+    for(int j = 0; j<next->M->N; j++){
         cout <<"|";
-        for(int i = 0 ; i<(*NM).M; i++){
+        for(int i = 0 ; i<next->M->M; i++){
             cout << setw(4);
-            cout << (*NM)[j][i] << " ";
+            cout << next->M->get(j,i) << " ";
         }
-        if((*NM)[j][(*NM).indexMinRow(j)] <= 0){
+        if(next->M->get(j,next->M->indexMinRow(j)) <= 0){
             cout << endl;
         }
         else{
-            cout <<" |- "<< (*NM)[j][(*NM).indexMinRow(j)] << endl;
+            cout <<" |- "<< next->M->get(j,next->M->indexMinRow(j)) << endl;
         }
     }
     cout << endl;
 }
 void little::wypiszKrok2Wegierski(){
     int space=4;
-    for(int j = 0; j<(*NM).N; j++){
+    for(int j = 0; j<next->M->N; j++){
         cout << "|";
-        for(int i = 0 ; i<(*NM).M; i++){
+        for(int i = 0 ; i<next->M->M; i++){
             cout << setw(space);
-            cout << (*NM)[j][i] << " ";
+            cout << next->M->get(j,i) << " ";
         }
         cout <<" |"<< endl;
     }
-    for(int i = 0 ; i<(*NM).M; i++){
+    for(int i = 0 ; i<next->M->M; i++){
         cout << setw(space) << "------";
     }
     cout << endl;
-    for(int i = 0 ; i<(*NM).M; i++){
-        if((*NM)[(*NM).indexMinCol(i)][i] <= 0){
+    for(int i = 0 ; i<next->M->M; i++){
+        if(next->M->get(next->M->indexMinCol(i),i) <= 0){
             space+= 5;
         }
         else{
-            cout << setw(space) <<"-"<< (*NM)[(*NM).indexMinCol(i)][i];
+            cout << setw(space) <<"-"<< next->M->get(next->M->indexMinCol(i),i);
         }
     }
     cout << endl;
 }
-nodeBT* little::addNode(char& row, char& col, double& limit){
-    //nodeBT* tmp = head;
-    static nodeBT* last = next;
-    if(*last->limit < limit && last->left == NULL){
-        last->left = new nodeBT(row,col,limit,*NM);
-        last->left->top = last;
-    }
-    if(*last->limit == limit && last->right == NULL){
-        last->right = new nodeBT(row,col,limit,*NM);
-        last->right->top = last;
-        last = last->right;
-    }
-    return last;
-}
+
 void little::showArray(){
     cout << endl;
-    cout << setw(6) << (*NM).nameM[0];
-    for(int i = 1 ; i<(*NM).M; i++){
-        cout << setw(5) << (*NM).nameM[i];
+    cout << setw(6) << next->M->nameM[0];
+    for(int i = 1 ; i<next->M->M; i++){
+        cout << setw(5) << next->M->nameM[i];
     }
     cout << endl;
-    for(int i = 0 ; i<(*NM).M; i++){
+    for(int i = 0 ; i<next->M->M; i++){
         cout <<"------";
     }
     cout << endl;
-    for(int j = 0; j<(*NM).N; j++){
-        cout << (*NM).nameN[j] <<"|";
-        for(int i = 0 ; i<(*NM).M; i++){
+    for(int j = 0; j<next->M->N; j++){
+        cout << next->M->nameN[j] <<"|";
+        for(int i = 0 ; i<next->M->M; i++){
             cout << setw(4);
-            cout << (*NM)[j][i] << " ";
+            cout << next->M->get(j,i) << " ";
         }
         cout <<" |"<< endl;
     }
-    for(int i = 0 ; i<(*NM).M; i++){
+    for(int i = 0 ; i<next->M->M; i++){
         cout <<"------";
     }
     cout << endl;
 }
 
 void little::showData(){
-    cout << "Wiersze: "<< (*NM).N << endl;
-    cout << "Kolumny: "<< (*NM).M << endl;
+    cout << "Wiersze: "<< next->M->N << endl;
+    cout << "Kolumny: "<< next->M->M << endl;
     cout << "Oszacowanie dolne: " << ograniczenia[0] << endl;
     cout << "Ograniczenie dolne: " << ograniczenia[1] << endl;
     cout << "Kara: " << kara << endl;
@@ -303,4 +301,5 @@ void little::showGraph(){
         tmp = tmp->right;
         tabs++;
     }
+
 }
