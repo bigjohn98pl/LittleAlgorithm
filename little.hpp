@@ -34,7 +34,6 @@ public:
     void showGraph();
 private:
 
-    macierz *NM;
     int iKrawedz[2];
     double ograniczenia[2];
     double kara;

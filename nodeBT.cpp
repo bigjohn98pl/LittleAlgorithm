@@ -7,9 +7,8 @@ nodeBT::nodeBT()
     M = new macierz(2,2);
     *limit = 0;
     *name->insert(name->begin(),2,'X');
-    left = NULL;
-    right = NULL;
-    top = NULL;
+    left = nullptr;
+    right = nullptr;
 }
 nodeBT::nodeBT(macierz& _M)
 {
@@ -18,9 +17,19 @@ nodeBT::nodeBT(macierz& _M)
     M = new macierz(_M);
     *limit = 0;
     *name->insert(name->begin(),2,'X');
-    left = NULL;
-    right = NULL;
-    top = NULL;
+    left = nullptr;
+    right = nullptr;
+}
+nodeBT::nodeBT(nodeBT & coppy){
+    limit = new double;
+    name = new string;
+
+    M = new macierz(*coppy.M);
+
+    *limit = *coppy.limit;
+    *name = *coppy.name;
+    left = coppy.left;
+    right = coppy.right;
 }
 nodeBT::nodeBT(vector<vector<double>> Tab)
 {
@@ -29,20 +38,17 @@ nodeBT::nodeBT(vector<vector<double>> Tab)
     M = new macierz(Tab);
     *limit = 0;
     *name->insert(name->begin(),2,'X');
-    left = NULL;
-    right = NULL;
-    top = NULL;
+    left = nullptr;
+    right = nullptr;
 }
 nodeBT::~nodeBT()
 {
     delete limit;
     delete name;
-    left = NULL;
-    right = NULL;
-    top = NULL;
+    left = nullptr;
+    right = nullptr;
     delete left;
     delete right;
-    delete top;
 
 }
 nodeBT::nodeBT(char& row, char& col, double& _limit,macierz _M){
@@ -53,19 +59,19 @@ nodeBT::nodeBT(char& row, char& col, double& _limit,macierz _M){
     *limit = _limit;
     name->push_back(row);
     name->push_back(col);
-    left = NULL;
-    right = NULL;
-    top = NULL;
+    left = nullptr;
+    right = nullptr;
 }
 
 
-void nodeBT::set(char& row, char& col, double& ogr){
+void nodeBT::set(int& row, int& col, double& ogr){
 
     *limit = ogr;
-    name->push_back(row);
-    name->push_back(col);
-    left = NULL;
-    right = NULL;
+    name->clear();
+    name->push_back(M->nameN[row]);
+    name->push_back(M->nameM[col]);
+    left = nullptr;
+    right = nullptr;
 
 }
 void nodeBT::setLimit(double& ogr){
