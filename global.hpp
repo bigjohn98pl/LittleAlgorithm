@@ -10,7 +10,7 @@
 
 #define ROW 5
 #define COL 5
-
+#define INF 999999
 
 using namespace std;
 
