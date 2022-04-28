@@ -3,7 +3,7 @@
 
 little::little()
 {
-    static vector<vector<double>> Tab2 = {{999,1,1,2,3},{3,999,2,5,6},{5,4,999,3,7},{8,4,3,999,2},{7,7,5,6,999}};
+    static vector<vector<double>> Tab2 = {{INF,1,1,2,3},{3,INF,2,5,6},{5,4,INF,3,7},{8,4,3,INF,2},{7,7,5,6,INF}};
     kara = 0;
     h = 0;
     head = new nodeBT(Tab2);
@@ -154,7 +154,7 @@ void little::stepEight(){
 void little::stepNine(){
     int row = head->left->edge[0];
     int col = head->left->edge[1];
-    head->left->M->tablica[row][col] = 999;
+    head->left->M->tablica[row][col] = INF;
     next = head->left;
 
     metodaWegierskaKrok1(*next);
@@ -266,14 +266,22 @@ void little::showArray(const nodeBT &_node){
         cout <<"------";
     }
     cout << endl;
+
     for(int j = 0; j< _node.M->N; j++){
         cout << _node.M->nameN[j] <<"|";
         for(int i = 0 ; i< _node.M->M; i++){
             cout << setw(4);
-            cout << _node.M->get(j,i) << " ";
+            if(_node.M->get(j,i) >= (INF-1000)){
+                cout << "Inf" << " ";
+            }
+            else{
+                cout << _node.M->get(j,i) << " ";
+            }
+
         }
         cout <<" |"<< endl;
     }
+
     for(int i = 0 ; i< _node.M->M; i++){
         cout <<"------";
     }
@@ -300,7 +308,13 @@ void little::showGraph(const string& prefix, const nodeBT* node, bool isLeft){
             }
 
             // print the value of the node
-            cout  << "[" << setw(3) << *node->name  << " " << *node->limit << "]\n";
+            if(*node->limit > INF - 20000 ){
+                cout  << "[" << setw(3) << *node->name  << " " << "Inf" << "]\n";
+            }
+            else{
+                cout  << "[" << setw(3) << *node->name  << " " << *node->limit << "]\n";
+            }
+
 
             // enter the next tree level - left and right branch
             showGraph( prefix + (isLeft ? "|     " : "        "), node->left, true);

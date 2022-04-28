@@ -241,7 +241,7 @@ void macierz::delRowCol(int row, int col){
         for(int i = 0 ; i<N ; i++){
             for(int j = 0; j<M ; j++){
                 if(i == j && tablica[i][j] == 0){
-                    tablica[i][j] = 999;
+                    tablica[i][j] = INF;
                 }
             }
         }
