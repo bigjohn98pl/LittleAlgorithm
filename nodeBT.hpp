@@ -9,19 +9,21 @@ class nodeBT
 public:
 
     nodeBT();
-    nodeBT( macierz& _M);
-    nodeBT( nodeBT& coppy);
-    nodeBT(vector<vector<double>> Tab);
-    nodeBT(char& row, char& col, double& _limit, macierz _M);
+    nodeBT( macierz &_M);
+    nodeBT( nodeBT &coppy);
+    nodeBT(vector<vector<double>> &Tab);
+    nodeBT(int &row, int &col, double &_limit, macierz &_M);
     ~nodeBT();
-    void set(int& row, int& col, double& ogr);
-    void setLimit(double& ogr);
+    void set(int &row, int &col, double &ogr);
+    void setLimit(double &ogr);
     void show(int tabs,bool node);
     void tabsInsert(int amount);
-    void add(nodeBT &_node, char side);
+
 private:
+
     double *limit;
     string *name;
+    vector<int> edge;
     macierz *M;
     nodeBT* left;
     nodeBT* right;
