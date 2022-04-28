@@ -24,19 +24,19 @@ public:
     void stepEight();
     void stepNine();
 
-    double metodaWegierskaKrok1();
-    double metodaWegierskaKrok2();
+    double metodaWegierskaKrok1(nodeBT &_node);
+    double metodaWegierskaKrok2(nodeBT &_node);
     void wypiszKrok1Wegierski();
     void wypiszKrok2Wegierski();
     nodeBT* addNode(char& row, char& col, double& limit);
     void showData();
     void showArray();
+    void showArray(const nodeBT &_node);
+    void showGraph(const string& prefix, const nodeBT* node, bool isLeft);
     void showGraph();
 private:
 
-    int iKrawedz[2];
-    double ograniczenia[2];
-    double kara;
+    double kara,h;
     nodeBT *head;
     nodeBT *next;
 };
