@@ -103,20 +103,21 @@ void macierz::reSize(int n, int m) {
     macierz temp(*this);
 
     tablica.resize(n);
+    for (int i = 0; i < n; i++)
+    {
+        tablica[i].resize(m);
+    }
+
     nameN.resize(n);
     nameM.resize(m);
 
     for (int i = 0; i < n; i++)
     {
-        tablica[i].resize(m);
-    }
-    for (int i = 0; i < n; i++)
-    {
-        //nameN[i] = 'A'+i;
+        nameN[i] = 'A'+i;
         for (int j = 0; j < m; j++)
         {
-            //nameM[j] = 'A'+j;
-            if (i < temp.N && j < temp.M)
+            nameM[j] = 'A'+j;
+            if (i < temp.N && j < temp.M && !temp.tablica.empty())
             {
                 tablica[i][j] = temp.tablica[i][j];
             }
@@ -133,14 +134,34 @@ void macierz::set(vector<vector<double>> tab){
     tablica.insert(tablica.begin(),tab.begin(),tab.end());
 }
 void macierz::show() {
-    for (int i = 0; i < N; i++)
-    {
-        for (int j = 0; j < M; j++)
-        {
-            cout << setw(3);
-            cout << tablica[i][j] << " ";
+    cout << endl;
+    cout << setw(6) << nameM[0];
+    for(int i = 1 ; i< M; i++){
+        cout << setw(5) << nameM[i];
+    }
+    cout << endl;
+    for(int i = 0 ; i< M; i++){
+        cout <<"------";
+    }
+    cout << endl;
+
+    for(int j = 0; j< N; j++){
+        cout << nameN[j] <<"|";
+        for(int i = 0 ; i< M; i++){
+            cout << setw(4);
+            if(get(j,i) >= (INF - 20000)){
+                cout << "Inf" << " ";
+            }
+            else{
+                cout << get(j,i) << " ";
+            }
+
         }
-        cout << endl;
+        cout <<" |"<< endl;
+    }
+
+    for(int i = 0 ; i< M; i++){
+        cout <<"------";
     }
     cout << endl;
 }
