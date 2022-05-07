@@ -3,10 +3,9 @@
 
 little::little()
 {
-    static vector<vector<double>> Tab2 = {{INF,1,1,2,3},{3,INF,2,5,6},{5,4,INF,3,7},{8,4,3,INF,2},{7,7,5,6,INF}};
     kara = 0;
     h = 0;
-    head = new nodeBT(Tab2);
+    head = nullptr;
     next = head;
 }
 
@@ -46,6 +45,7 @@ void little::stepOne(bool show){
         }
     }
     else{
+        showArray();
         if(! next->M->haveZerosRows()){
             *next->limit += metodaWegierskaKrok1(*next);
         }
@@ -53,6 +53,7 @@ void little::stepOne(bool show){
             *next->limit += metodaWegierskaKrok2(*next);
         }
     }
+    showArray();
     stepTwo();
 }
 void little::stepTwo(){
@@ -93,17 +94,19 @@ void little::stepFour(){
     int wiersz = next->edge[0],   kolumna = next->edge[1];
 
     next->right->M->delRowCol(wiersz,kolumna);
+    showArray();
     stepFive();
 }
 void little::stepFive(){
     h = 0;
+    showArray();
     if(!next->right->M->haveZerosRows()){
         h += metodaWegierskaKrok1(*next->right);
     }
     if(next->right->M->haveZerosColums()){
         h += metodaWegierskaKrok2(*next->right);
     }
-
+    showArray();
     //ograniczenia[0] += h;
     *next->right->limit += h;
     h = 0;
@@ -112,11 +115,11 @@ void little::stepFive(){
 }
 void little::stepSix(){
 
-    cout << "==================================" << endl;
-    showArray(*next);
-    showArray(*next->left);
-    showArray(*next->right);
-    cout << "==================================" << endl;
+//    cout << "==================================" << endl;
+//    showArray(*next);
+//    showArray(*next->left);
+//    showArray(*next->right);
+//    cout << "==================================" << endl;
     next = next->right;
 
     if(next->M->N == 2 && next->M->M == 2){
@@ -138,6 +141,7 @@ void little::stepSeven(){
                 }
             }
         }
+        showArray();
     }
 
        stepEight();
@@ -245,7 +249,12 @@ void little::showArray(){
         cout << next->M->nameN[j] <<"|";
         for(int i = 0 ; i<next->M->M; i++){
             cout << setw(4);
-            cout << next->M->get(j,i) << " ";
+            if(next->M->get(j,i) >= (INF - 20000)){
+                cout << "Inf" << " ";
+            }
+            else{
+                cout << next->M->get(j,i) << " ";
+            }
         }
         cout <<" |"<< endl;
     }
@@ -271,7 +280,7 @@ void little::showArray(const nodeBT &_node){
         cout << _node.M->nameN[j] <<"|";
         for(int i = 0 ; i< _node.M->M; i++){
             cout << setw(4);
-            if(_node.M->get(j,i) >= (INF-1000)){
+            if(_node.M->get(j,i) >= (INF - 20000)){
                 cout << "Inf" << " ";
             }
             else{
@@ -323,4 +332,17 @@ void little::showGraph(const string& prefix, const nodeBT* node, bool isLeft){
 }
 void little::showGraph(){
     showGraph("", head, false);
+}
+
+void little::set(vector<vector<double>> &_set){
+    kara = 0;
+    h = 0;
+    head = new nodeBT(_set);
+    next = head;
+}
+void little::set(macierz &_set){
+    kara = 0;
+    h = 0;
+    head = new nodeBT(_set);
+    next = head;
 }
