@@ -45,7 +45,6 @@ void little::stepOne(bool show){
         }
     }
     else{
-        showArray();
         if(! next->M->haveZerosRows()){
             *next->limit += metodaWegierskaKrok1(*next);
         }
@@ -53,7 +52,6 @@ void little::stepOne(bool show){
             *next->limit += metodaWegierskaKrok2(*next);
         }
     }
-    showArray();
     stepTwo();
 }
 void little::stepTwo(){
@@ -94,20 +92,16 @@ void little::stepFour(){
     int wiersz = next->edge[0],   kolumna = next->edge[1];
 
     next->right->M->delRowCol(wiersz,kolumna);
-    showArray();
     stepFive();
 }
 void little::stepFive(){
     h = 0;
-    showArray();
     if(!next->right->M->haveZerosRows()){
         h += metodaWegierskaKrok1(*next->right);
     }
     if(next->right->M->haveZerosColums()){
         h += metodaWegierskaKrok2(*next->right);
     }
-    showArray();
-    //ograniczenia[0] += h;
     *next->right->limit += h;
     h = 0;
 
@@ -115,18 +109,13 @@ void little::stepFive(){
 }
 void little::stepSix(){
 
-//    cout << "==================================" << endl;
-//    showArray(*next);
-//    showArray(*next->left);
-//    showArray(*next->right);
-//    cout << "==================================" << endl;
     next = next->right;
 
     if(next->M->N == 2 && next->M->M == 2){
         stepSeven();
     }
     else{
-        stepOne(false);
+        stepOne(true);
     }
 }
 void little::stepSeven(){
@@ -141,7 +130,6 @@ void little::stepSeven(){
                 }
             }
         }
-        showArray();
     }
 
        stepEight();
@@ -150,9 +138,6 @@ void little::stepEight(){
     nodeBT *last = next;
     if(*head->left->limit < *last->limit ){
         stepNine();
-    }
-    else if( *head->right->limit < *last->limit ){
-        //stepTwo();
     }
 }
 void little::stepNine(){
