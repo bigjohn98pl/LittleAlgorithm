@@ -1,3 +1,15 @@
+/*
+ * Klasa macierz ktora znajduje sie wewnatrz klasy nodeBT(węzeł drzewa binarnego) i ktora ma przydatne do obliczen metody takie jak:
+ *  indexMinRow() - zwraca indeks wiersza gdzie wystepuje najmniejsza liczba w wierszu
+ *  indexMinCol() - to samo dla kolumny
+ *  indexMin() - zwraca jednoczesnie 2 wartosci , indeks dla minimalnej wartosci w podanym wierszu, i indeks dla minimum w podanej kolumnie z pominieciem punktu przeciecia sie kolumny z wierszem
+ *  delRowCol() - usuwa wskazany wiersz i kolumne
+ *  haveZerosRows() - sprawdza czy w we wszystkich kolumnach jest chociaz jedno 0
+ *  haveZerosColums() - to samo dla wierszy
+ *  przeladowane operatory w wiekszosci nie sa tutaj uzywane
+ *
+*/
+
 #ifndef MACIERZ_HPP
 #define MACIERZ_HPP
 

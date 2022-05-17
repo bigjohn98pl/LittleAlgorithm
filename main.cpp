@@ -62,7 +62,7 @@ int main()
                 "0.Zakoncz"<< endl <<
                 ":" ;
         cin >> option;
-
+        system("cls");
         switch (option) {
         case 1:
             fill(data);
@@ -73,11 +73,12 @@ int main()
         case 2:
 
             cout << "Wybierz ktory problem chcesz obliczyc:" << endl <<
-                    "1.Macierz 4x4 - z zajec (ok)" << endl <<
-                    "2.Macierz 5x5 - z ksiazki (ok)"<< endl <<
+                    "1.Macierz 4x4 - z ksiazki (ok)" << endl <<
+                    "2.Macierz 5x5 - z zajec (ok)"<< endl <<
                     "3.Macierz 4x4 - z wikipedi (blad,zapetla sie) "<< endl <<
                     ":" ;
             cin >> option;
+            system("cls");
             cout << "Dane wejsciowe:" << endl;
             switch (option) {
             case 1:
@@ -92,8 +93,8 @@ int main()
             default:
                 break;
             }
-
             problem.showArray();
+            system("PAUSE");
             problem.stepOne(false);
             problem.showGraph();
 

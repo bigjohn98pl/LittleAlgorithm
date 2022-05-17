@@ -1,3 +1,23 @@
+/*
+ * glowna klasa, posiada:
+ * zmienne:
+ *  kara - wyliczane z bilansu zer w kroku 2
+ *  h - wyliczane w kroku 5
+ *  *head - wskaznik na poczatek grafu
+ *  *next - wskaznik pomocniczy na kolejne elementy grafu
+ *
+ * ta klasa posiada 9 metod które robią to co kroki algorytmu opisane w ksiazce
+ * sa tutaj metody do wyswietlania elementow na ekranie, takie jak:
+ *  wypiszKrok1Wegierski() - wyswietla macierz z elementami ktore sie odejmuje, nic nie oblicza
+ *  wypiszKrok2Wegierski() - dokladnie to samo co wyzej
+ *  showData() - aktualnie nie uzywane, mozna napisac na nowo zeby wyswietlac co sie dzieje na kazdym etapie programu
+ *  showArray() - wyswietla aktualna macierz, nic nie oblicza
+ *  showGraph() - pokazuje drzewko grafu
+ *
+ *   metodaWegierskaKrok1() - oblicza nowa macierz i zwraca sume odjetych liczb
+ *   metodaWegierskaKrok2() - identycznie co wyzej
+ *
+*/
 #ifndef LITTLE_HPP
 #define LITTLE_HPP
 
@@ -6,7 +26,6 @@
 #include "global.hpp"
 
 using namespace std;
-
 class little{
 public:
 

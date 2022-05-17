@@ -1,6 +1,8 @@
 #include "nodeBT.hpp"
 #include "little.hpp"
 
+//Konstruktory destruktory
+//==============================================================================================//
 little::little()
 {
     kara = 0;
@@ -32,7 +34,9 @@ little::~little(){
     head = nullptr;
     next = nullptr;
 }
+//==============================================================================================//
 
+//Krok 1 - metoda wegierska 1 i 2
 void little::stepOne(bool show){
     if(show){
         wypiszKrok1Wegierski();
@@ -54,6 +58,7 @@ void little::stepOne(bool show){
     }
     stepTwo();
 }
+//Krok2 - obliczanie bilansu zer
 void little::stepTwo(){
     double suma=0,karaMax=0;
     int* iMin;
@@ -71,11 +76,11 @@ void little::stepTwo(){
             }
         }
     }
-
     kara = karaMax;
 
     stepTree();
 }
+//Krok 3 - przypisanie wartosci do kolejnego elementu grafu
 void little::stepTree(){
     int wiersz = next->edge[0],   kolumna = next->edge[1];
     double leftNodeLimit = *next->limit + kara;
@@ -88,12 +93,14 @@ void little::stepTree(){
 
     stepFour();
 }
+//Krok4 - zredukowanie macierzy
 void little::stepFour(){
     int wiersz = next->edge[0],   kolumna = next->edge[1];
 
     next->right->M->delRowCol(wiersz,kolumna);
     stepFive();
 }
+//Krok5 - sprawdzanie czy mamy zera a nastepnie obliczenie h
 void little::stepFive(){
     h = 0;
     if(!next->right->M->haveZerosRows()){
@@ -102,29 +109,32 @@ void little::stepFive(){
     if(next->right->M->haveZerosColums()){
         h += metodaWegierskaKrok2(*next->right);
     }
-    *next->right->limit += h;
+    *next->right->limit += h; // dodanie h do ograniczenia
     h = 0;
 
     stepSix();
 }
+//Krok6 - przyporzadkowanie wartosci do wierzcholka(zrealizowane w kroku 5)
 void little::stepSix(){
 
-    next = next->right;
+    //showArray(*next->left);
+    next = next->right; //zredukowana macierz staje sie nowa macierza
 
     if(next->M->N == 2 && next->M->M == 2){
         stepSeven();
     }
     else{
-        stepOne(true);
+        stepOne(false);
     }
 }
+//Krok7 - sprawdzanie czy macierz jest 2x2 i czy zblizamy sie do konca
 void little::stepSeven(){
 
     if(next->M->N == 2 && next->M->M == 2 && ( (next->M->get(0,0) == 0 && next->M->get(1,1) == 0) || (next->M->get(0,1) == 0 && next->M->get(1,0) == 0)) ){
         for(int i=0; i<next->M->N ; i++){
             for(int j=0; j<next->M->M ; j++){
                 if(next->M->get(i,j) == 0 ){
-
+                    //Dodanie 2 ostatnicj krawedzi do grafu
                     next->right = new nodeBT(i,j,*next->limit,*next->M);
                     next = next->right;
                 }
@@ -132,14 +142,17 @@ void little::stepSeven(){
         }
     }
 
-       stepEight();
+    stepEight();
 }
+//Krok8 - to PRAWDZIWE kryterium stopu, w ksiazce jest blad
+//sprawdzamy czy limit ostatniej krawedzi jest wiekszy od limitu dziecka po lewej stronie z poczatku grafu, jesli tak to KONIEC
 void little::stepEight(){
     nodeBT *last = next;
     if(*head->left->limit < *last->limit ){
         stepNine();
     }
 }
+//Krok9 - Wstawienie nieskonczonosci w dane miejsce i zapetlenie programu
 void little::stepNine(){
     int row = head->left->edge[0];
     int col = head->left->edge[1];
@@ -159,7 +172,7 @@ double little::metodaWegierskaKrok1(nodeBT &_node){
         Min = _node.M->get(i,_node.M->indexMinRow(i));
         SUM = SUM + Min;
         for(int j=0 ; j<_node.M->M ; j++){
-             _node.M->tablica[i][j] = _node.M->tablica[i][j] - Min;
+            _node.M->tablica[i][j] = _node.M->tablica[i][j] - Min;
         }
     }
 
@@ -179,11 +192,27 @@ double little::metodaWegierskaKrok2(nodeBT &_node){
     return SUM;
 }
 void little::wypiszKrok1Wegierski(){
+
+    cout << endl;
+    cout << setw(6) << next->M->nameM[0];
+    for(int i = 1 ; i<next->M->M; i++){
+        cout << setw(5) << next->M->nameM[i];
+    }
+    cout << endl;
+    for(int i = 0 ; i<next->M->M; i++){
+        cout <<"------";
+    }
+    cout << endl;
     for(int j = 0; j<next->M->N; j++){
-        cout <<"|";
+        cout << next->M->nameN[j] <<"|";
         for(int i = 0 ; i<next->M->M; i++){
             cout << setw(4);
-            cout << next->M->get(j,i) << " ";
+            if(next->M->get(j,i) >= (INF - 20000)){
+                cout << "Inf" << " ";
+            }
+            else{
+                cout << next->M->get(j,i) << " ";
+            }
         }
         if(next->M->get(j,next->M->indexMinRow(j)) <= 0){
             cout << endl;
@@ -192,28 +221,25 @@ void little::wypiszKrok1Wegierski(){
             cout <<" |- "<< next->M->get(j,next->M->indexMinRow(j)) << endl;
         }
     }
+    for(int i = 0 ; i<next->M->M; i++){
+        cout <<"------";
+    }
     cout << endl;
+
 }
 void little::wypiszKrok2Wegierski(){
-    int space=4;
-    for(int j = 0; j<next->M->N; j++){
-        cout << "|";
-        for(int i = 0 ; i<next->M->M; i++){
-            cout << setw(space);
-            cout << next->M->get(j,i) << " ";
-        }
-        cout <<" |"<< endl;
-    }
-    for(int i = 0 ; i<next->M->M; i++){
-        cout << setw(space) << "------";
-    }
-    cout << endl;
+
+    string space = "    ";
+
+    showArray();
+
+    cout  << " -" ;
     for(int i = 0 ; i<next->M->M; i++){
         if(next->M->get(next->M->indexMinCol(i),i) <= 0){
-            space+= 5;
+            cout  << space << " ";
         }
         else{
-            cout << setw(space) <<"-"<< next->M->get(next->M->indexMinCol(i),i);
+            cout << setw(4) << next->M->get(next->M->indexMinCol(i),i) << " " ;
         }
     }
     cout << endl;
@@ -293,27 +319,27 @@ void little::showData(){
 
 void little::showGraph(const string& prefix, const nodeBT* node, bool isLeft){
     if( node != nullptr )
-        {
-            if(prefix != ""){
-                cout << prefix << "|" << endl <<prefix;
-                cout << (isLeft ? "|---" : "^---" );
-            }else{
-                cout << "    ";
-            }
-
-            // print the value of the node
-            if(*node->limit > INF - 20000 ){
-                cout  << "[" << setw(3) << *node->name  << " " << "Inf" << "]\n";
-            }
-            else{
-                cout  << "[" << setw(3) << *node->name  << " " << *node->limit << "]\n";
-            }
-
-
-            // enter the next tree level - left and right branch
-            showGraph( prefix + (isLeft ? "|     " : "        "), node->left, true);
-            showGraph( prefix + (isLeft ? "|     " : "        "), node->right, false);
+    {
+        if(prefix != ""){
+            cout << prefix << "|" << endl <<prefix;
+            cout << (isLeft ? "|---" : "^---" );
+        }else{
+            cout << "    ";
         }
+
+        // print the value of the node
+        if(*node->limit > INF - 20000 ){
+            cout  << "[" << setw(3) << *node->name  << " " << "Inf" << "]\n";
+        }
+        else{
+            cout  << "[" << setw(3) << *node->name  << " " << *node->limit << "]\n";
+        }
+
+
+        // enter the next tree level - left and right branch
+        showGraph( prefix + (isLeft ? "|     " : "        "), node->left, true);
+        showGraph( prefix + (isLeft ? "|     " : "        "), node->right, false);
+    }
 }
 void little::showGraph(){
     showGraph("", head, false);
