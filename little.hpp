@@ -53,12 +53,15 @@ public:
     void showArray(const nodeBT &_node);
     void showGraph(const string& prefix, const nodeBT* node, bool isLeft);
     void showGraph();
+    string city(char key);
+    string city(string key);
 
     void set(vector<vector<double>> &_set);
     void set(macierz &_set);
 private:
 
-    double kara,h;
+
+    double kara, h;
     nodeBT *head;
     nodeBT *next;
 };
