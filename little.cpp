@@ -344,7 +344,6 @@ void little::showGraph(const string& prefix, const nodeBT* node, bool isLeft){
 void little::showGraph(){
     showGraph("", head, false);
 }
-
 void little::set(vector<vector<double>> &_set){
     kara = 0;
     h = 0;
