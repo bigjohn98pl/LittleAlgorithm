@@ -52,15 +52,16 @@ macierz::macierz(string Fname)
 
     if (arkusz.is_open())
     {
-        string a;
-        
+        string a;    
         vector<double> v1;
+        
         arkusz >> N;
-        arkusz >> M;
+        M = N;
 
         for (int i = 0; i < N; i++)
         {
             nameN.push_back('A' + i);
+            nameM.push_back('A' + i);
             for (int c = 0; c < M; c++)
             {
                 arkusz >> a;
@@ -69,8 +70,6 @@ macierz::macierz(string Fname)
             v.push_back(v1);
             v1.clear();
         }
-        for (int i = 0; i < M; i++)
-            nameM.push_back('A' + i);
         tablica.swap(v);
     }
     else

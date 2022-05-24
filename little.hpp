@@ -60,7 +60,6 @@ public:
     void set(macierz &_set);
 private:
 
-
     double kara, h;
     nodeBT *head;
     nodeBT *next;

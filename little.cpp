@@ -247,73 +247,59 @@ void little::wypiszKrok2Wegierski(){
 
 string little::city(string key)
 {
-  /*  vector<string> nazwyMiast;
+    vector<string> nazwyMiast;
     fstream arkusz1("city.txt");
-    string a;
+    string a,b;
 
      if (arkusz1.is_open())
     {
-        for (int i = 0; i < next->M->M; i++)
+        for (int i = 0; i < head->M->M; i++)
         {
             arkusz1 >> a;
             nazwyMiast.push_back(a);
         }
+    }
+
+/*
+    size_t x = static_cast<size_t> (key[0]);
+    x -= 65;
+    size_t y = static_cast<size_t>(key[1]);
+    y -= 65;
+
+    b = nazwyMiast[x] + '-' + nazwyMiast[y];
+
+    if (key[0] == 'X')
+    {
+        b = "X";
     }*/
-  string c,b;
 
-  switch (key[0])
-  {
+    string result ="";
+    size_t index = 0;
 
-  case 'A':
-      c = "Tarnow";
-      break;
-  case 'B':
-      c = "Krakow";
-      break;
-  case 'C':
-      c = "Opole";
-      break;
-  case 'D':
-      c = "Poznan";
-      break;
-  case 'E':
-      c = "Warszawa";
-      break;
-  case 'F':
-      c = "Kielce";
-      break;
-  default:
-      c = "X";
-      break;
+    if(key[0] == '*')
+    {
+        result += '*';
+        index += 1;
     }
-
-  switch (key[1])
-  {
-
-  case 'A':
-      b = "Tarnow";
-      break;
-  case 'B':
-      b = "Krakow";
-      break;
-  case 'C':
-      b = "Opole";
-      break;
-  case 'D':
-       b = "Poznan";
-      break;
-  case 'E':
-      b = +"Warszawa";
-      break;
-  case 'F':
-      b = "Kielce";
-      break;
-  default:
-      b = "X";
-      break;
+    if(key[index] == 'X')
+    {
+        result += "X-";
+        index += 1;
+        size_t x = static_cast<size_t>(key[index]);
+        x -= 65;
+        result +=  nazwyMiast[x];
     }
-    c = c + '-'+ b;
-    return c;
+    else
+    {
+    size_t x = static_cast<size_t>(key[index]);
+    x -= 65;
+    size_t y = static_cast<size_t>(key[index+1]);
+    y -= 65;
+    result += nazwyMiast[x] + '-' + nazwyMiast[y];
+    }
+    arkusz1.close();
+    return result;
+    
 }
 
 
@@ -462,7 +448,7 @@ void little::showGraph(const string &prefix, const nodeBT *node, bool isLeft)
 void little::showGraph()
 {
     showGraph("", head, false);
-    cout << endl;
+    
 }
 void little::set(vector<vector<double>> &_set)
 {

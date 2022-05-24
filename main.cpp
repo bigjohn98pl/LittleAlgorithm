@@ -6,8 +6,6 @@
 #include "little.cpp"
 #include "nodeBT.cpp"
 
-
-
 macierz fill(macierz &tmp)
 {
     unsigned width,hight,option=0;
@@ -62,9 +60,9 @@ int main()
     little problem;
 
     while (option != 0) {
-        cout << "==========================================================" << endl
-             << "|                  Problem komiwojazera                   |"<< endl
-             << "==========================================================" << endl << endl
+        cout << "==============================================================" << endl
+             << "|                    Problem komiwojazera                     |"<< endl
+             << "==============================================================" << endl << endl
              << "Opcje:" << endl <<
                 "1. Wprowadz dane i oblicz" << endl <<
                 "2. Testowe zestawy danych "<< endl <<
@@ -125,6 +123,6 @@ int main()
             break;
         }
     }
-
+    system("PAUSE");
     return 0;
 }
