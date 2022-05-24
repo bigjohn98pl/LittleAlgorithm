@@ -53,22 +53,14 @@ macierz::macierz(string Fname)
     if (arkusz.is_open())
     {
         string a;
-<<<<<<< HEAD
         
-=======
->>>>>>> 648ac71ef10d1612ee6178280949d8dacfb1403d
         vector<double> v1;
         arkusz >> N;
         arkusz >> M;
 
-<<<<<<< HEAD
         for (int i = 0; i < N; i++)
         {
             nameN.push_back('A' + i);
-=======
-        for (int r = 0; r < N; r++)
-        {
->>>>>>> 648ac71ef10d1612ee6178280949d8dacfb1403d
             for (int c = 0; c < M; c++)
             {
                 arkusz >> a;
@@ -77,7 +69,6 @@ macierz::macierz(string Fname)
             v.push_back(v1);
             v1.clear();
         }
-<<<<<<< HEAD
         for (int i = 0; i < M; i++)
             nameM.push_back('A' + i);
         tablica.swap(v);
@@ -87,20 +78,6 @@ macierz::macierz(string Fname)
         cout << "Blad odczytu pliku: " << Fname << endl;
     }
     arkusz.close();
-=======
-    }
-    
-    tablica.swap(v);
-
-    for (int i = 0; i < N; i++)
-    {
-        nameN.push_back('A' + i);
-    }
-    for (int i = 0; i < M; i++)
-    {
-        nameM.push_back('A' + i);
-    }
->>>>>>> 648ac71ef10d1612ee6178280949d8dacfb1403d
 }
 
 macierz::macierz(double **tab, int _n, int _m) {

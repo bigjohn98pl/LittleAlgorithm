@@ -464,12 +464,8 @@ void little::showGraph()
     showGraph("", head, false);
     cout << endl;
 }
-<<<<<<< HEAD
 void little::set(vector<vector<double>> &_set)
 {
-=======
-void little::set(vector<vector<double>> &_set){
->>>>>>> 648ac71ef10d1612ee6178280949d8dacfb1403d
     kara = 0;
     h = 0;
     head = new nodeBT(_set);
