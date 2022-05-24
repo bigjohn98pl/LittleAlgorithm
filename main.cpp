@@ -2,11 +2,14 @@
 #include "little.hpp"
 #include "nodeBT.hpp"
 
+<<<<<<< HEAD
 /*#include "macierz.cpp"
 #include "little.cpp"
 #include "nodeBT.cpp"*/
 
 
+=======
+>>>>>>> 648ac71ef10d1612ee6178280949d8dacfb1403d
 
 macierz fill(macierz &tmp)
 {
