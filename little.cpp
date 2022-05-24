@@ -260,19 +260,6 @@ string little::city(string key)
         }
     }
 
-/*
-    size_t x = static_cast<size_t> (key[0]);
-    x -= 65;
-    size_t y = static_cast<size_t>(key[1]);
-    y -= 65;
-
-    b = nazwyMiast[x] + '-' + nazwyMiast[y];
-
-    if (key[0] == 'X')
-    {
-        b = "X";
-    }*/
-
     string result ="";
     size_t index = 0;
 
@@ -285,21 +272,32 @@ string little::city(string key)
     {
         result += "X-";
         index += 1;
-        size_t x = static_cast<size_t>(key[index]);
-        x -= 65;
-        result +=  nazwyMiast[x];
+        if(key[index] == 'X')
+            result += 'X';
+        
+        else
+        {
+            size_t x = static_cast<size_t>(key[index]);
+            x -= 65;
+            result +=  nazwyMiast[x];
+        }
     }
     else
     {
-    size_t x = static_cast<size_t>(key[index]);
-    x -= 65;
-    size_t y = static_cast<size_t>(key[index+1]);
-    y -= 65;
-    result += nazwyMiast[x] + '-' + nazwyMiast[y];
+        size_t x = static_cast<size_t>(key[index]);
+        x -= 65;
+        if (key[index+1] == 'X')
+            result += "-X";
+        else
+        {
+            size_t y = static_cast<size_t>(key[index + 1]);
+            y -= 65;
+            result += nazwyMiast[x] + '-' + nazwyMiast[y];
+        }
     }
     arkusz1.close();
+    result += " =";
     return result;
-    
 }
 
 
