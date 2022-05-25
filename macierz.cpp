@@ -168,9 +168,10 @@ void macierz::set(vector<vector<double>> tab){
 }
 void macierz::show() {
     cout << endl;
-    cout << setw(6) << nameM[0];
+    cout << setw(6) << little::city(nameM[0]);
+    ;
     for(int i = 1 ; i< M; i++){
-        cout << setw(5) << nameM[i];
+        cout << setw(5) << little::city(nameM[i]);
     }
     cout << endl;
     for(int i = 0 ; i< M; i++){
@@ -179,7 +180,7 @@ void macierz::show() {
     cout << endl;
 
     for(int j = 0; j< N; j++){
-        cout << nameN[j] <<"|";
+        cout << little::city(nameN[j]) <<"|";
         for(int i = 0 ; i< M; i++){
             cout << setw(4);
             if(get(j,i) >= (INF - 20000)){

@@ -305,16 +305,23 @@ string little::city(char key)
 {
     vector<string> nazwyMiast;
     fstream arkusz("city.txt");
-    if (arkusz.is_open())
+    if (arkusz.good())
     {
         string a;
-        for (int i = 0; i < next->M->M ; i++)
+        // next->M->M
+        for (int i = 0; i < 10 ; i++)
         {
             arkusz >> a;
             nazwyMiast.push_back(a);
+            if(arkusz.eof())
+                i = 10;
         }
     }
-    string b = nazwyMiast.at(key - 'A');
+    else
+    {
+        cout << "Błąd pliku city.txt" << endl;
+    }
+    string b = nazwyMiast[key - 'A'];
     arkusz.close();
     return b;
 }
