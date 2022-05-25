@@ -318,7 +318,7 @@ string little::city(char key)
     }
     else
     {
-        cout << "Błąd pliku city.txt" << endl;
+        cout << "Blad pliku city.txt" << endl;
     }
     string b = nazwyMiast[key - 'A'];
     arkusz.close();
