@@ -1,4 +1,5 @@
 #include "macierz.hpp"
+#include "little.hpp"
 
 macierz::macierz() {
     N = 1;
