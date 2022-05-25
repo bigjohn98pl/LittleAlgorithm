@@ -7,6 +7,8 @@
 #include <list>
 #include <vector>
 #include <random>
+#include <fstream>
+#include <iterator>
 
 #define ROW 5
 #define COL 5

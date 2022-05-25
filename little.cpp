@@ -245,113 +245,218 @@ void little::wypiszKrok2Wegierski(){
     cout << endl;
 }
 
-void little::showArray(){
+string little::city(string key)
+{
+    vector<string> nazwyMiast;
+    fstream arkusz1("city.txt");
+    string a,b;
+
+     if (arkusz1.is_open())
+    {
+        for (int i = 0; i < head->M->M; i++)
+        {
+            arkusz1 >> a;
+            nazwyMiast.push_back(a);
+        }
+    }
+
+    string result ="";
+    size_t index = 0;
+
+    if(key[0] == '*')
+    {
+        result += '*';
+        index += 1;
+    }
+    if(key[index] == 'X')
+    {
+        result += "X-";
+        index += 1;
+        if(key[index] == 'X')
+            result += 'X';
+        
+        else
+        {
+            size_t x = static_cast<size_t>(key[index]);
+            x -= 65;
+            result +=  nazwyMiast[x];
+        }
+    }
+    else
+    {
+        size_t x = static_cast<size_t>(key[index]);
+        x -= 65;
+        if (key[index+1] == 'X')
+            result += "-X";
+        else
+        {
+            size_t y = static_cast<size_t>(key[index + 1]);
+            y -= 65;
+            result += nazwyMiast[x] + '-' + nazwyMiast[y];
+        }
+    }
+    arkusz1.close();
+    result += " =";
+    return result;
+}
+
+
+string little::city(char key)
+{
+    vector<string> nazwyMiast;
+    fstream arkusz("city.txt");
+    if (arkusz.is_open())
+    {
+        string a;
+        for (int i = 0; i < next->M->M ; i++)
+        {
+            arkusz >> a;
+            nazwyMiast.push_back(a);
+        }
+    }
+    string b = nazwyMiast.at(key - 'A');
+    arkusz.close();
+    return b;
+}
+
+
+void little::showArray()
+{
+
     cout << endl;
-    cout << setw(6) << next->M->nameM[0];
-    for(int i = 1 ; i<next->M->M; i++){
-        cout << setw(5) << next->M->nameM[i];
+    cout << city(next->M->nameM[0]) << "|";
+    for (int i = 1; i < next->M->M; i++)
+    {
+        cout << setw(6) << city(next->M->nameM[i]) << "|";
     }
     cout << endl;
-    for(int i = 0 ; i<next->M->M; i++){
-        cout <<"------";
+    for (int i = 0; i < next->M->M; i++)
+    {
+        cout << "--------";
     }
     cout << endl;
-    for(int j = 0; j<next->M->N; j++){
-        cout << next->M->nameN[j] <<"|";
-        for(int i = 0 ; i<next->M->M; i++){
-            cout << setw(4);
-            if(next->M->get(j,i) >= (INF - 20000)){
-                cout << "Inf" << " ";
+    for (int j = 0; j < next->M->N; j++)
+    {
+
+        for (int i = 0; i < next->M->M; i++)
+        {
+            cout << setw(6);
+            if (next->M->get(j, i) >= (INF - 20000))
+            {
+                cout << "Inf"
+                     << " ";
             }
-            else{
-                cout << next->M->get(j,i) << " ";
+            else
+            {
+                cout << next->M->get(j, i) << " ";
             }
         }
-        cout <<" |"<< endl;
+        cout << " |" << city(next->M->nameN[j]) << "|" << endl;
     }
-    for(int i = 0 ; i<next->M->M; i++){
-        cout <<"------";
+    for (int i = 0; i < next->M->M; i++)
+    {
+        cout << "--------";
     }
     cout << endl;
 }
 
-void little::showArray(const nodeBT &_node){
+void little::showArray(const nodeBT &_node)
+{
     cout << endl;
     cout << setw(6) << _node.M->nameM[0];
-    for(int i = 1 ; i< _node.M->M; i++){
-        cout << setw(5) << _node.M->nameM[i];
+    for (int i = 1; i < _node.M->M; i++)
+    {
+        cout << setw(6) << _node.M->nameM[i];
     }
     cout << endl;
-    for(int i = 0 ; i< _node.M->M; i++){
-        cout <<"------";
+    for (int i = 0; i < _node.M->M; i++)
+    {
+        cout << "------";
     }
     cout << endl;
 
-    for(int j = 0; j< _node.M->N; j++){
-        cout << _node.M->nameN[j] <<"|";
-        for(int i = 0 ; i< _node.M->M; i++){
+    for (int j = 0; j < _node.M->N; j++)
+    {
+        cout << _node.M->nameN[j] << "|";
+        for (int i = 0; i < _node.M->M; i++)
+        {
             cout << setw(4);
-            if(_node.M->get(j,i) >= (INF - 20000)){
-                cout << "Inf" << " ";
+            if (_node.M->get(j, i) >= (INF - 20000))
+            {
+                cout << "Inf"
+                     << " ";
             }
-            else{
-                cout << _node.M->get(j,i) << " ";
+            else
+            {
+                cout << _node.M->get(j, i) << " ";
             }
-
         }
-        cout <<" |"<< endl;
+        cout << " |" << endl;
     }
 
-    for(int i = 0 ; i< _node.M->M; i++){
-        cout <<"------";
+    for (int i = 0; i < _node.M->M; i++)
+    {
+        cout << "------";
     }
     cout << endl;
 }
 
-void little::showData(){
-    cout << "Wiersze: "<< next->M->N << endl;
-    cout << "Kolumny: "<< next->M->M << endl;
+void little::showData()
+{
+    cout << "Wiersze: " << next->M->N << endl;
+    cout << "Kolumny: " << next->M->M << endl;
     cout << "Oszacowanie dolne: " << next->edge[0] << endl;
     cout << "Ograniczenie dolne: " << next->edge[1] << endl;
     cout << "Kara: " << kara << endl;
-    cout << "Krawedz: " <<  next->edge[0]+1 <<  next->edge[1]+1 << endl;
+    cout << "Krawedz: " << next->edge[0] + 1 << next->edge[1] + 1 << endl;
 }
 
-void little::showGraph(const string& prefix, const nodeBT* node, bool isLeft){
-    if( node != nullptr )
+void little::showGraph(const string &prefix, const nodeBT *node, bool isLeft)
+{
+    if (node != nullptr)
     {
-        if(prefix != ""){
-            cout << prefix << "|" << endl <<prefix;
-            cout << (isLeft ? "|---" : "^---" );
-        }else{
+        if (prefix != "")
+        {
+            cout << prefix << "|" << endl
+                 << prefix;
+            cout << (isLeft ? "|----" : "^----");
+        }
+        else
+        {
             cout << "    ";
         }
 
         // print the value of the node
-        if(*node->limit > INF - 20000 ){
-            cout  << "[" << setw(3) << *node->name  << " " << "Inf" << "]\n";
+        if (*node->limit > INF - 20000)
+        {
+            cout << "[" << setw(3) << city(*node->name) << " "
+                 << "Inf"
+                 << "]\n";
         }
-        else{
-            cout  << "[" << setw(3) << *node->name  << " " << *node->limit << "]\n";
+        else
+        {
+            cout << "[" << setw(3) << city(*node->name) << " " << *node->limit << "]\n";
         }
-
 
         // enter the next tree level - left and right branch
-        showGraph( prefix + (isLeft ? "|     " : "        "), node->left, true);
-        showGraph( prefix + (isLeft ? "|     " : "        "), node->right, false);
+        showGraph(prefix + (isLeft ? "|      " : "         "), node->left, true);
+        showGraph(prefix + (isLeft ? "|      " : "         "), node->right, false);
     }
 }
-void little::showGraph(){
+void little::showGraph()
+{
     showGraph("", head, false);
+    
 }
-
-void little::set(vector<vector<double>> &_set){
+void little::set(vector<vector<double>> &_set)
+{
     kara = 0;
     h = 0;
     head = new nodeBT(_set);
     next = head;
 }
-void little::set(macierz &_set){
+void little::set(macierz &_set)
+{
     kara = 0;
     h = 0;
     head = new nodeBT(_set);

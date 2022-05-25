@@ -29,6 +29,7 @@ public:
     macierz(double **tab, int _n, int _m);
     macierz(macierz& X);
     macierz( vector< vector< double>> Tab);
+    macierz(string Fname);
     ~macierz();
 
     void random(int from = 1, int to = 10);
@@ -45,7 +46,7 @@ public:
     bool haveZerosRows();
     bool haveZerosColums();
 
-    double get(const int &i,const int &j);
+    double get(const int &i, const int &j);
     double operator ()(int i, int j);
     vector<double>& operator [](int i);
 

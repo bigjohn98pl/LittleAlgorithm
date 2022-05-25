@@ -45,6 +45,40 @@ macierz::macierz( vector< vector< double>> Tab){
     }
 }
 
+macierz::macierz(string Fname)
+{
+    vector<vector<double>> v;
+    fstream arkusz(Fname);
+
+    if (arkusz.is_open())
+    {
+        string a;    
+        vector<double> v1;
+        
+        arkusz >> N;
+        M = N;
+
+        for (int i = 0; i < N; i++)
+        {
+            nameN.push_back('A' + i);
+            nameM.push_back('A' + i);
+            for (int c = 0; c < M; c++)
+            {
+                arkusz >> a;
+                v1.push_back(stod(a));
+            }
+            v.push_back(v1);
+            v1.clear();
+        }
+        tablica.swap(v);
+    }
+    else
+    {
+        cout << "Blad odczytu pliku: " << Fname << endl;
+    }
+    arkusz.close();
+}
+
 macierz::macierz(double **tab, int _n, int _m) {
     N = _n;
     M = _m;
