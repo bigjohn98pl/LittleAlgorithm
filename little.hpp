@@ -49,10 +49,10 @@ public:
     void wypiszKrok2Wegierski();
     nodeBT* addNode(char& row, char& col, double& limit);
     void showData();
-    void showArray();
+    void showArray(bool showCities);
     void showArray(const nodeBT &_node);
-    void showGraph(const string& prefix, const nodeBT* node, bool isLeft);
-    void showGraph();
+    void showGraph(const string& prefix, const nodeBT* node, bool isLeft, bool showCities);
+    void showGraph(bool showCities);
     string city(char key);
     string city(string key);
 

@@ -231,7 +231,7 @@ void little::wypiszKrok2Wegierski(){
 
     string space = "    ";
 
-    showArray();
+    showArray(false);
 
     cout  << " -" ;
     for(int i = 0 ; i<next->M->M; i++){
@@ -320,14 +320,19 @@ string little::city(char key)
 }
 
 
-void little::showArray()
+void little::showArray(bool showCities)
 {
 
     cout << endl;
-    cout << city(next->M->nameM[0]) << "|";
-    for (int i = 1; i < next->M->M; i++)
+    for (int i = 0; i < next->M->M; i++)
     {
-        cout << setw(6) << city(next->M->nameM[i]) << "|";
+        if(showCities){
+            cout << setw(6) << city(next->M->nameM[i]) << "|";
+        }
+        else{
+            cout << setw(6) << next->M->nameM[i] << "|";
+        }
+
     }
     cout << endl;
     for (int i = 0; i < next->M->M; i++)
@@ -351,7 +356,13 @@ void little::showArray()
                 cout << next->M->get(j, i) << " ";
             }
         }
-        cout << " |" << city(next->M->nameN[j]) << "|" << endl;
+        if(showCities){
+            cout << "|" << left << setw(6) << city(next->M->nameN[j]) << right;
+        }
+        else{
+            cout << "|" << setw(6) << next->M->nameN[j];
+        }
+        cout << endl;
     }
     for (int i = 0; i < next->M->M; i++)
     {
@@ -390,6 +401,7 @@ void little::showArray(const nodeBT &_node)
             {
                 cout << _node.M->get(j, i) << " ";
             }
+            cout << endl;
         }
         cout << " |" << endl;
     }
@@ -411,7 +423,7 @@ void little::showData()
     cout << "Krawedz: " << next->edge[0] + 1 << next->edge[1] + 1 << endl;
 }
 
-void little::showGraph(const string &prefix, const nodeBT *node, bool isLeft)
+void little::showGraph(const string &prefix, const nodeBT *node, bool isLeft,bool showCities)
 {
     if (node != nullptr)
     {
@@ -429,23 +441,33 @@ void little::showGraph(const string &prefix, const nodeBT *node, bool isLeft)
         // print the value of the node
         if (*node->limit > INF - 20000)
         {
-            cout << "[" << setw(3) << city(*node->name) << " "
-                 << "Inf"
-                 << "]\n";
+            if(showCities){
+                cout << "[" << setw(3) << city(*node->name) << " ";
+            }
+            else{
+                cout << "[" << setw(3) << *node->name << " ";
+            }
+            cout << "Inf";
+            cout << "]\n";
         }
         else
         {
-            cout << "[" << setw(3) << city(*node->name) << " " << *node->limit << "]\n";
+            if(showCities){
+                cout << "[" << setw(3) << city(*node->name) << " " << *node->limit << "]\n";
+            }
+            else{
+                cout << "[" << setw(3) << *node->name << " " << *node->limit << "]\n";
+            }
         }
 
         // enter the next tree level - left and right branch
-        showGraph(prefix + (isLeft ? "|      " : "         "), node->left, true);
-        showGraph(prefix + (isLeft ? "|      " : "         "), node->right, false);
+        showGraph(prefix + (isLeft ? "|      " : "         "), node->left, true,showCities);
+        showGraph(prefix + (isLeft ? "|      " : "         "), node->right, false,showCities);
     }
 }
-void little::showGraph()
+void little::showGraph(bool showCieties)
 {
-    showGraph("", head, false);
+    showGraph("", head, false,showCieties);
     
 }
 void little::set(vector<vector<double>> &_set)

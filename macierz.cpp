@@ -47,30 +47,28 @@ macierz::macierz( vector< vector< double>> Tab){
 
 macierz::macierz(string Fname)
 {
-    vector<vector<double>> v;
+    vector<vector<double>> temp;
     fstream arkusz(Fname);
+    string record;
+    vector<double> row;
 
-    if (arkusz.is_open())
+    if (arkusz.good())
     {
-        string a;    
-        vector<double> v1;
-        
         arkusz >> N;
         M = N;
-
         for (int i = 0; i < N; i++)
         {
             nameN.push_back('A' + i);
             nameM.push_back('A' + i);
             for (int c = 0; c < M; c++)
             {
-                arkusz >> a;
-                v1.push_back(stod(a));
+                arkusz >> record;
+                row.push_back(stod(record));
             }
-            v.push_back(v1);
-            v1.clear();
+            temp.push_back(row);
+            row.clear();
         }
-        tablica.swap(v);
+        tablica.swap(temp);
     }
     else
     {

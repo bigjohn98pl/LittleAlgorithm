@@ -2,15 +2,11 @@
 #include "little.hpp"
 #include "nodeBT.hpp"
 
-#include "macierz.cpp"
-#include "little.cpp"
-#include "nodeBT.cpp"
-
 macierz fill(macierz &tmp)
 {
     unsigned width,hight,option=0;
 
-//    while (!option) {
+   while (!option) {
         cout << "Podaj wymiary macierzy odleglosci:" << endl <<
                 "Szerokosc:";
         cin >> width;
@@ -35,22 +31,24 @@ macierz fill(macierz &tmp)
                     }
                 }
             }
- /*       }
+       }
         cout << endl << "Czy wprowadzone dane sa poprawne?" << endl;
         tmp.show();
         cout << "1.Tak" << endl <<
                 "0.Nie" << endl <<
                 ":";
-        cin >> option; */
+        cin >> option;
     }
     return tmp;
 }
 
 int main()
 {
+    string fileName = "arkusz.txt";
     int option = -1;
-
+    bool showCieties = true;
     macierz data;
+    macierz data2(fileName);
 
     static vector<vector<double>> Tab1 = {{INF, 1, 1, 2, 3}, {3, INF, 2, 5, 6}, {5, 4, INF, 3, 7}, {8, 4, 3, INF, 2}, {7, 7, 5, 6, INF}};
     static vector<vector<double>> Tab2 = {{INF,8,7,5},{2,INF,6,4},{3,10,INF,4},{7,5,4,INF}};
@@ -67,6 +65,7 @@ int main()
                 "1. Wprowadz dane i oblicz" << endl <<
                 "2. Testowe zestawy danych "<< endl <<
                 "3. Dane z pliku"<< endl <<
+                "4. Ustawienia"<< endl <<
                 "0. Zakoncz"<< endl;
         cin >> option;
         system("cls");
@@ -78,9 +77,9 @@ int main()
         case 1:
             fill(data);
             problem.set(data);
-            problem.showArray();
+            problem.showArray(showCieties);
             problem.stepOne(false);
-            problem.showGraph();
+            problem.showGraph(showCieties);
             break;
         case 2:
             cout << "Wybierz ktory problem chcesz obliczyc:" << endl <<
@@ -104,25 +103,36 @@ int main()
             default:
                 break;
             }
-            problem.showArray();
+            problem.showArray(showCieties);
             system("PAUSE");
             problem.stepOne(false);
-            problem.showGraph();
+            problem.showGraph(showCieties);
             break;
         case 3:
-            string fileName;
-            cout << "Podaj nazwe pliku wraz z roszerzeniem: ";
-            cin >> fileName;
-            system("cls");
-            macierz data2(fileName);
             problem.set(data2);
-            problem.showArray();
+            problem.showArray(showCieties);
             system("PAUSE");
             problem.stepOne(false);
-            problem.showGraph();
+            problem.showGraph(showCieties);
+            break;
+        case 4:
+            while(option != 0){
+                system("cls");
+                cout << "Opcje do zmiany: " << endl;
+                cout << "1. Wykorzystaj nazwy z pliku .txt:   " << (showCieties ? "[true]":"[false]") << endl <<
+                        "0. Cofnij" << endl << ":";
+                cin >> option;
+                switch (option) {
+                case 1:
+                    showCieties = not showCieties;
+                    break;
+                default:
+                    break;
+                }
+            }
+            option = -1;
             break;
         }
     }
-    system("PAUSE");
     return 0;
 }
