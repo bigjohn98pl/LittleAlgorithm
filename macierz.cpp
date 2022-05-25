@@ -60,7 +60,7 @@ macierz::macierz(string Fname)
         {
             nameN.push_back('A' + i);
             nameM.push_back('A' + i);
-            for (int c = 0; c < M; c++)
+            for (int c = 0; c < N; c++)
             {
                 arkusz >> record;
                 row.push_back(stod(record));
@@ -72,7 +72,8 @@ macierz::macierz(string Fname)
     }
     else
     {
-        cout << "Blad odczytu pliku: " << Fname << endl;
+        cout << "Blad odczytu pliku: " << Fname << endl
+        << "    Nastapi zakonczenie dzialania programu!";
     }
     arkusz.close();
 }

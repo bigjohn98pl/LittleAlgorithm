@@ -467,8 +467,8 @@ void little::showGraph(const string &prefix, const nodeBT *node, bool isLeft,boo
 }
 void little::showGraph(bool showCieties)
 {
+    cout << "   Graf:" << endl << endl;
     showGraph("", head, false,showCieties);
-    
 }
 void little::set(vector<vector<double>> &_set)
 {
