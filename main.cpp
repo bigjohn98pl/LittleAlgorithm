@@ -2,9 +2,6 @@
 #include "little.hpp"
 #include "nodeBT.hpp"
 
-#include "little.cpp"
-#include "macierz.cpp"
-#include "nodeBT.cpp"
 
 macierz fill(macierz &tmp)
 {
