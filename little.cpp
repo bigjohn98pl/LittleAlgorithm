@@ -308,13 +308,12 @@ string little::city(char key)
     if (arkusz.good())
     {
         string a;
-        // next->M->M
-        for (int i = 0; i < 10 ; i++)
+        for (int i = 0; i < 15 ; i++)
         {
             arkusz >> a;
             nazwyMiast.push_back(a);
             if(arkusz.eof())
-                i = 10;
+                i = 15;
         }
     }
     else
@@ -389,7 +388,7 @@ void little::showArray(const nodeBT &_node)
     cout << endl;
     for (int i = 0; i < _node.M->M; i++)
     {
-        cout << "------";
+        cout << "--------";
     }
     cout << endl;
 
@@ -415,7 +414,7 @@ void little::showArray(const nodeBT &_node)
 
     for (int i = 0; i < _node.M->M; i++)
     {
-        cout << "------";
+        cout << "--------";
     }
     cout << endl;
 }

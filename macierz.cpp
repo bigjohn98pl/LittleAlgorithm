@@ -166,42 +166,112 @@ void macierz::reSize(int n, int m) {
 void macierz::set(vector<vector<double>> tab){
     tablica.insert(tablica.begin(),tab.begin(),tab.end());
 }
-void macierz::show() {
+void macierz::show(bool showCities)
+{
     cout << endl;
-    cout << setw(6) << little::city(nameM[0]);
-    ;
-    for(int i = 1 ; i< M; i++){
-        cout << setw(5) << little::city(nameM[i]);
-    }
-    cout << endl;
-    for(int i = 0 ; i< M; i++){
-        cout <<"------";
-    }
-    cout << endl;
-
-    for(int j = 0; j< N; j++){
-        cout << little::city(nameN[j]) <<"|";
-        for(int i = 0 ; i< M; i++){
-            cout << setw(4);
-            if(get(j,i) >= (INF - 20000)){
-                cout << "Inf" << " ";
-            }
-            else{
-                cout << get(j,i) << " ";
-            }
-
+    for (int i = 0; i < M; i++)
+    {
+        if (showCities)
+        {
+            cout << setw(6) << little::city(nameM[i]) << "|";
         }
-        cout <<" |"<< endl;
+        else
+        {
+            cout << setw(6) << nameM[i] << "|";
+        }
     }
+    cout << endl;
+    for (int i = 0; i < M; i++)
+    {
+        cout << "----------";
+    }
+    cout << endl;
+    for (int j = 0; j < N; j++)
+    {
 
-    for(int i = 0 ; i< M; i++){
-        cout <<"------";
+        for (int i = 0; i < M; i++)
+        {
+            cout << setw(6);
+            if (get(j, i) >= (INF - 20000))
+            {
+                cout << "Inf"
+                     << " ";
+            }
+            else
+            {
+                cout << get(j, i) << " ";
+            }
+        }
+        if (showCities)
+        {
+            cout << "|" << left << setw(6) << little::city(nameN[j]) << right;
+        }
+        else
+        {
+            cout << "|" << setw(6) << nameN[j];
+        }
+        cout << endl;
+    }
+    for (int i = 0; i < M; i++)
+    {
+        cout << "----------";
     }
     cout << endl;
 }
+
+void macierz::fill(bool showCieties)
+{
+    unsigned int N, option = 0;
+    while (!option)
+    {
+        cout << "Podaj wymiar macierzy odleglosci:" << endl
+             << ">>  ";
+        cin >> N;
+
+        this -> reSize(N, N);
+
+        for (unsigned int i = 0; i < N; ++i)
+        {
+            for (unsigned int j = 0; j < N; ++j)
+            {
+                if (i == j)
+                {
+                    tablica[i][j] = INF;
+                    cout << "Pozycja "
+                         << "[" << i + 1 << " " << j + 1 << "]"
+                         << " -> Inf" << endl;
+                }
+                else
+                {
+                    cout << "Pozycja "
+                         << "[" << i + 1 << " " << j + 1 << "]"
+                         << " -> :";
+                    cin >> tablica[i][j];
+                    while (tablica[i][j] < 0)
+                    {
+                        cout << "Blad przy wprowadzaniu danych. Wartosci nie moga byc ujemne. Wprowadz dane jeszcze raz." << endl
+                             << "Pozycja "
+                             << "[" << i + 1 << " " << j + 1 << "]"
+                             << " -> :";
+                        cin >> tablica[i][j];
+                    }
+                }
+            }
+        }
+        cout << endl
+             << "   Czy wprowadzone dane sa poprawne?" << endl;
+        this -> show(showCieties);
+        cout << "1. Tak" << endl
+             << "0. Nie" << endl
+             << ">> ";
+        cin >> option;
+    }
+}
+
 int macierz::col() {
     return this->M;
 }
+
 int macierz::row() {
     return this->N;
 }
@@ -612,3 +682,4 @@ bool& operator !=(macierz& A, macierz& B) {
     }
     return **tab;
 }
+

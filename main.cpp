@@ -2,47 +2,6 @@
 #include "little.hpp"
 #include "nodeBT.hpp"
 
-
-macierz fill(macierz &tmp)
-{
-    unsigned width,hight,option=0;
-
-   while (!option) {
-        cout << "Podaj wymiary macierzy odleglosci:" << endl <<
-                "Szerokosc  >>  ";
-        cin >> width;
-        cout << "Wysokosc   >>  ";
-        cin >> hight;
-
-        tmp.reSize(width,hight);
-
-        for (unsigned int i = 0; i < hight; ++i) {
-            for (unsigned int j = 0; j < width; ++j) {
-                if(i == j){
-                    tmp[i][j] = INF;
-                    cout << "Pozycja " << "[" << i+1 << " " << j+1 << "]" << " -> Inf" << endl;
-                }
-                else{
-                    cout << "Pozycja " << "[" << i+1 << " " << j+1 << "]" << " -> :";
-                    cin >> tmp[i][j];
-                    while (tmp[i][j] < 0) {
-                        cout << "Blad przy wprowadzaniu danych. Wartosci nie moga byc ujemne. Wprowadz dane jeszcze raz." << endl <<
-                                "Pozycja " << "[" << i+1 << " " << j+1 << "]" << " -> :";
-                        cin >> tmp[i][j];
-                    }
-                }
-            }
-       }
-        cout << endl << "   Czy wprowadzone dane sa poprawne?" << endl;
-        tmp.show();
-        cout << "1. Tak" << endl <<
-                "0. Nie" << endl <<
-                ">> ";
-        cin >> option;
-    }
-    return tmp;
-}
-
 int main()
 {
     string fileName = "arkusz.txt";
@@ -78,7 +37,7 @@ int main()
         case 0:
             break;
         case 1:
-            fill(data);
+            data.fill(showCieties);
             problem.set(data);
             problem.showArray(showCieties);
             problem.stepOne(false);
@@ -156,6 +115,7 @@ int main()
         case 3:
             macierz data2(fileName);
             problem.set(data2);
+            cout << "   Macierz wejsciowa:" << endl;
             problem.showArray(showCieties);
             system("PAUSE");
             problem.stepOne(false);

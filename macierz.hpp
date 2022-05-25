@@ -35,7 +35,8 @@ public:
     void random(int from = 1, int to = 10);
     void reSize(int n, int m);
     void set(vector<vector<double>> tab);
-    void show();
+    void show(bool showCities);
+    void fill(bool showCieties);
     int col();
     int row();
     int indexMinRow(int row);
