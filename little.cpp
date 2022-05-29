@@ -305,16 +305,22 @@ string little::city(char key)
 {
     vector<string> nazwyMiast;
     fstream arkusz("city.txt");
-    if (arkusz.is_open())
+    if (arkusz.good())
     {
         string a;
-        for (int i = 0; i < next->M->M ; i++)
+        for (int i = 0; i < 15 ; i++)
         {
             arkusz >> a;
             nazwyMiast.push_back(a);
+            if(arkusz.eof())
+                i = 15;
         }
     }
-    string b = nazwyMiast.at(key - 'A');
+    else
+    {
+        cout << "Blad pliku city.txt" << endl;
+    }
+    string b = nazwyMiast[key - 'A'];
     arkusz.close();
     return b;
 }
@@ -382,7 +388,7 @@ void little::showArray(const nodeBT &_node)
     cout << endl;
     for (int i = 0; i < _node.M->M; i++)
     {
-        cout << "------";
+        cout << "--------";
     }
     cout << endl;
 
@@ -408,7 +414,7 @@ void little::showArray(const nodeBT &_node)
 
     for (int i = 0; i < _node.M->M; i++)
     {
-        cout << "------";
+        cout << "--------";
     }
     cout << endl;
 }
@@ -467,8 +473,8 @@ void little::showGraph(const string &prefix, const nodeBT *node, bool isLeft,boo
 }
 void little::showGraph(bool showCieties)
 {
+    cout << "   Graf:" << endl << endl;
     showGraph("", head, false,showCieties);
-    
 }
 void little::set(vector<vector<double>> &_set)
 {

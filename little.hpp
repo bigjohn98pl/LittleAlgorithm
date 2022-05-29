@@ -51,9 +51,9 @@ public:
     void showData();
     void showArray(bool showCities);
     void showArray(const nodeBT &_node);
-    void showGraph(const string& prefix, const nodeBT* node, bool isLeft, bool showCities);
+    void showGraph(const string &prefix, const nodeBT *node, bool isLeft, bool showCities);
     void showGraph(bool showCities);
-    string city(char key);
+    static string city(char key);
     string city(string key);
 
     void set(vector<vector<double>> &_set);
