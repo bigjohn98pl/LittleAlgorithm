@@ -313,7 +313,7 @@ string little::city(char key)
             arkusz >> a;
             nazwyMiast.push_back(a);
             if(arkusz.eof())
-                i = 15;
+                break;
         }
     }
     else
