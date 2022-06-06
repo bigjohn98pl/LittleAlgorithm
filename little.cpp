@@ -535,7 +535,8 @@ void little::result(bool showCities)
                    cout << " -> ";
                 path.pop_front();
             }
-            cout << endl;
+            cout << endl 
+                 << "   Strumien minimalny  ->  " << *next->limit << endl;
 
             path.push_back(tmp->right->name->front());
             path.push_back(tmp->right->name->back());
