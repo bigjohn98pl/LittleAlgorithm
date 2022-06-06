@@ -521,37 +521,29 @@ void little::result(bool showCities)
 
         next = next->right;
 
-        if(next->right == nullptr){
-            string resultPath;
-            while(!path.empty()){
-                resultPath.push_back(path.front());
-                path.pop_front();
-            }
+        if(next->right == nullptr)
+        {
             cout << "   Optymalna droga :" << endl;
 
-            for (size_t i = 0; i < resultPath.length(); i++)
+            for (size_t i = path.size(); i >= 1 ; i--)  // wypisuje z listy od począku i usuwa 
             {
                 if (showCities)
-                {
-                    cout << city(resultPath[i]) ;
-                }
+                    cout << city(path.front()) ;
                 else
-                {
-                    cout << resultPath[i] ;
-                }
-                if(i != resultPath.length()-1)
-                {
+                    cout << path.front() ;
+                if(i > 1)
                    cout << " -> ";
-                }
+                path.pop_front();
             }
             cout << endl;
 
             path.push_back(tmp->right->name->front());
             path.push_back(tmp->right->name->back());
             next = tmp->left;
-            if(!flag){
+
+            if(!flag)
                 break;
-            }
+
             flag = false;
         }
     }
