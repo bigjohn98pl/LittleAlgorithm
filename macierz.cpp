@@ -52,6 +52,7 @@ macierz::macierz(string Fname)
     fstream arkusz(Fname);
     string record;
     vector<double> row;
+    double result;
 
     if (arkusz.good())
     {
@@ -64,6 +65,10 @@ macierz::macierz(string Fname)
             for (int c = 0; c < N; c++)
             {
                 arkusz >> record;
+
+                if(record[0] == '0')
+                    record = "INF";
+
                 row.push_back(stod(record));
             }
             temp.push_back(row);
