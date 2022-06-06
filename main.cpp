@@ -2,6 +2,10 @@
 #include "little.hpp"
 #include "nodeBT.hpp"
 
+#include "little.cpp"
+#include "nodeBT.cpp"
+#include "macierz.cpp"
+
 int main()
 {
     string fileName = "arkusz.txt";
@@ -42,6 +46,7 @@ int main()
             problem.showArray(showCieties);
             problem.stepOne(false);
             problem.showGraph(showCieties);
+            problem.result(showCieties);
             system("PAUSE");
             break;
         case 2:
@@ -65,7 +70,7 @@ int main()
                 system("PAUSE");
                 problem.stepOne(false);
                 problem.showGraph(showCieties);
-                problem.result();
+                problem.result(showCieties);
                 system("PAUSE");
                 break;
             case 2:
@@ -74,7 +79,7 @@ int main()
                 system("PAUSE");
                 problem.stepOne(false);
                 problem.showGraph(showCieties);
-                problem.result();
+                problem.result(showCieties);
                 system("PAUSE");
                 break;
             case 3:
@@ -83,7 +88,7 @@ int main()
                 system("PAUSE");
                 problem.stepOne(false);
                 problem.showGraph(showCieties);
-                problem.result();
+                problem.result(showCieties);
                 system("PAUSE");
                 break;
             default:
@@ -123,6 +128,7 @@ int main()
             system("PAUSE");
             problem.stepOne(false);
             problem.showGraph(showCieties);
+            problem.result(showCieties);
             system("PAUSE");
             break;
         }

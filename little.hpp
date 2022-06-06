@@ -42,7 +42,7 @@ public:
     void stepSeven();
     void stepEight();
     void stepNine();
-    void result();
+    void result(bool showCities);
 
     double metodaWegierskaKrok1(nodeBT &_node);
     double metodaWegierskaKrok2(nodeBT &_node);

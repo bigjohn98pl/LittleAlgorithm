@@ -473,8 +473,9 @@ void little::showGraph(const string &prefix, const nodeBT *node, bool isLeft,boo
 }
 void little::showGraph(bool showCieties)
 {
-    cout << "   Graf:" << endl << endl;
+    cout << "   Graf:" << endl;
     showGraph("", head, false,showCieties);
+    cout << endl;
 }
 void little::set(vector<vector<double>> &_set)
 {
@@ -491,7 +492,8 @@ void little::set(macierz &_set)
     next = head;
 }
 
-void little::result(){
+void little::result(bool showCities)
+{
 
     nodeBT *tmp = head, *next;
     list<char> path,savePath;
@@ -523,13 +525,27 @@ void little::result(){
             string resultPath;
             while(!path.empty()){
                 resultPath.push_back(path.front());
-                resultPath.push_back('-');
-                resultPath.push_back('>');
                 path.pop_front();
             }
-            resultPath.pop_back();
-            resultPath.pop_back();
-            cout << resultPath << endl;
+            cout << "   Optymalna droga :" << endl;
+
+            for (size_t i = 0; i < resultPath.length(); i++)
+            {
+                if (showCities)
+                {
+                    cout << city(resultPath[i]) ;
+                }
+                else
+                {
+                    cout << resultPath[i] ;
+                }
+                if(i != resultPath.length()-1)
+                {
+                   cout << " -> ";
+                }
+            }
+            cout << endl;
+
             path.push_back(tmp->right->name->front());
             path.push_back(tmp->right->name->back());
             next = tmp->left;
@@ -539,5 +555,4 @@ void little::result(){
             flag = false;
         }
     }
-
 }
