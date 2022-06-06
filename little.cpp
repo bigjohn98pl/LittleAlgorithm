@@ -525,7 +525,7 @@ void little::result(bool showCities)
         {
             cout << "   Optymalna droga :" << endl;
 
-            for (size_t i = path.size(); i >= 1 ; i--)  // wypisuje z listy od począku i usuwa 
+            for (size_t i = path.size(); i > 0 ; i--)  // wypisuje z listy od począku i usuwa 
             {
                 if (showCities)
                     cout << city(path.front()) ;
