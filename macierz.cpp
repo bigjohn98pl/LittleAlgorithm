@@ -52,7 +52,6 @@ macierz::macierz(string Fname)
     fstream arkusz(Fname);
     string record;
     vector<double> row;
-    double result;
 
     if (arkusz.good())
     {
