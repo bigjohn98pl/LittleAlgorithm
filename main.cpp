@@ -65,6 +65,7 @@ int main()
                 system("PAUSE");
                 problem.stepOne(false);
                 problem.showGraph(showCieties);
+                problem.result();
                 system("PAUSE");
                 break;
             case 2:
@@ -73,6 +74,7 @@ int main()
                 system("PAUSE");
                 problem.stepOne(false);
                 problem.showGraph(showCieties);
+                problem.result();
                 system("PAUSE");
                 break;
             case 3:
@@ -81,6 +83,7 @@ int main()
                 system("PAUSE");
                 problem.stepOne(false);
                 problem.showGraph(showCieties);
+                problem.result();
                 system("PAUSE");
                 break;
             default:

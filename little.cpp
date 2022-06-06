@@ -87,7 +87,7 @@ void little::stepTree(){
     double rightNodeLimit = *next->limit + h;
 
     next->left = new nodeBT(wiersz,kolumna,leftNodeLimit,*next->M);
-    next->left->name->insert(0,1,'*');
+    next->left->name->insert(0,1,'*'); //Gwiazdka Beee
 
     next->right = new nodeBT(wiersz,kolumna,rightNodeLimit,*next->M);
 
@@ -467,8 +467,8 @@ void little::showGraph(const string &prefix, const nodeBT *node, bool isLeft,boo
         }
 
         // enter the next tree level - left and right branch
-        showGraph(prefix + (isLeft ? "|      " : "         "), node->left, true,showCities);
-        showGraph(prefix + (isLeft ? "|      " : "         "), node->right, false,showCities);
+        showGraph(prefix + (isLeft ? "|       " : "        "), node->left, true,showCities);
+        showGraph(prefix + (isLeft ? "|       " : "        "), node->right, false,showCities);
     }
 }
 void little::showGraph(bool showCieties)
@@ -489,4 +489,55 @@ void little::set(macierz &_set)
     h = 0;
     head = new nodeBT(_set);
     next = head;
+}
+
+void little::result(){
+
+    nodeBT *tmp = head, *next;
+    list<char> path,savePath;
+    bool flag = true;
+
+    path.push_back(tmp->right->name->front());
+    path.push_back(tmp->right->name->back());
+    next = tmp->right;
+    while(next->right != nullptr){
+        if(path.back() == next->right->name->front()){
+            path.push_back(next->right->name->back());
+        }
+        else if(path.front() == next->right->name->back()){
+            path.push_front(next->right->name->front());
+        }
+        else if(path.back() == next->right->name->back()){
+            path.pop_back();
+            path.push_back(next->right->name->front());
+            path.push_back(next->right->name->back());
+        }
+        else{
+            savePath.push_back(next->right->name->front());
+            savePath.push_back(next->right->name->back());
+        }
+
+        next = next->right;
+
+        if(next->right == nullptr){
+            string resultPath;
+            while(!path.empty()){
+                resultPath.push_back(path.front());
+                resultPath.push_back('-');
+                resultPath.push_back('>');
+                path.pop_front();
+            }
+            resultPath.pop_back();
+            resultPath.pop_back();
+            cout << resultPath << endl;
+            path.push_back(tmp->right->name->front());
+            path.push_back(tmp->right->name->back());
+            next = tmp->left;
+            if(!flag){
+                break;
+            }
+            flag = false;
+        }
+    }
+
 }
