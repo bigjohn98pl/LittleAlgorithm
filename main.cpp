@@ -2,9 +2,6 @@
 #include "little.hpp"
 #include "nodeBT.hpp"
 
-#include "little.cpp"
-#include "nodeBT.cpp"
-#include "macierz.cpp"
 
 int main()
 {
