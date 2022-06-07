@@ -358,11 +358,24 @@ int* macierz::indexMin(int Row, int Col){
     }
     return indexMin;
 }
-void macierz::delRowCol(int row, int col){
+void macierz::delRowCol(int row, int col, list<char> &result){
 
     if(N > 1 && M > 1 && row <= N-1 && col <= M-1 ){
-        for (int i=0; i<N ;i++ ) {
-            tablica[i].erase(tablica[i].begin()+col);
+        for (int j=0; j<N ;j++ ) {
+            if(nameN[row] == nameM[j]){
+                for (int i=0; i<N ;i++ ) {
+                    if(nameM[col] == nameN[i]){
+                        tablica[i][j] = INF;
+                    }
+                    if(result.back() == nameN[i] && result.front() == nameM[j]){
+                        tablica[i][j] = INF;
+                    }
+                    else if(result.back() == nameM[i] && result.front() == nameN[j]){
+                        tablica[i][j] = INF;
+                    }
+                }
+            }
+            tablica[j].erase(tablica[j].begin()+col);
         }
         tablica.erase(tablica.begin()+row);
         nameN.erase(nameN.begin()+row);
@@ -370,6 +383,8 @@ void macierz::delRowCol(int row, int col){
         N--;
         M--;
     }
+
+
     //tablica[N-1][M-1] = 999;
     if(N == 2 && M == 2){
         for(int i = 0 ; i<N ; i++){

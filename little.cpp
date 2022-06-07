@@ -85,11 +85,34 @@ void little::stepTree(){
     int wiersz = next->edge[0],   kolumna = next->edge[1];
     double leftNodeLimit = *next->limit + kara;
     double rightNodeLimit = *next->limit + h;
+    static list<char> savePath;
 
     next->left = new nodeBT(wiersz,kolumna,leftNodeLimit,*next->M);
     next->left->name->insert(0,1,'*'); //Gwiazdka Beee
 
     next->right = new nodeBT(wiersz,kolumna,rightNodeLimit,*next->M);
+
+    if(result2.empty()){
+        result2.push_back(next->right->name->front());
+        result2.push_back(next->right->name->back());
+    }
+    else{
+        if(result2.back() == next->right->name->front()){
+            result2.push_back(next->right->name->back());
+        }
+        else if(result2.front() == next->right->name->back()){
+            result2.push_front(next->right->name->front());
+        }
+        else if(result2.back() == next->right->name->back()){
+            result2.pop_back();
+            result2.push_back(next->right->name->front());
+            result2.push_back(next->right->name->back());
+        }
+        else{
+            savePath.push_back(next->right->name->front());
+            savePath.push_back(next->right->name->back());
+        }
+    }
 
     stepFour();
 }
@@ -97,7 +120,7 @@ void little::stepTree(){
 void little::stepFour(){
     int wiersz = next->edge[0],   kolumna = next->edge[1];
 
-    next->right->M->delRowCol(wiersz,kolumna);
+    next->right->M->delRowCol(wiersz,kolumna,result2);
     stepFive();
 }
 //Krok5 - sprawdzanie czy mamy zera a nastepnie obliczenie h
@@ -117,7 +140,7 @@ void little::stepFive(){
 //Krok6 - przyporzadkowanie wartosci do wierzcholka(zrealizowane w kroku 5)
 void little::stepSix(){
 
-    //showArray(*next->left);
+    showArray(*next->right,false);
     next = next->right; //zredukowana macierz staje sie nowa macierza
 
     if(next->M->N == 2 && next->M->M == 2){
@@ -377,13 +400,19 @@ void little::showArray(bool showCities)
     cout << endl;
 }
 
-void little::showArray(const nodeBT &_node)
+void little::showArray(const nodeBT &_node,bool showCities)
 {
+
     cout << endl;
-    cout << setw(6) << _node.M->nameM[0];
-    for (int i = 1; i < _node.M->M; i++)
+    for (int i = 0; i < _node.M->M; i++)
     {
-        cout << setw(6) << _node.M->nameM[i];
+        if(showCities){
+            cout << setw(6) << city(_node.M->nameM[i]) << "|";
+        }
+        else{
+            cout << setw(6) << _node.M->nameM[i] << "|";
+        }
+
     }
     cout << endl;
     for (int i = 0; i < _node.M->M; i++)
@@ -391,13 +420,12 @@ void little::showArray(const nodeBT &_node)
         cout << "--------";
     }
     cout << endl;
-
     for (int j = 0; j < _node.M->N; j++)
     {
-        cout << _node.M->nameN[j] << "|";
+
         for (int i = 0; i < _node.M->M; i++)
         {
-            cout << setw(4);
+            cout << setw(6);
             if (_node.M->get(j, i) >= (INF - 20000))
             {
                 cout << "Inf"
@@ -407,11 +435,15 @@ void little::showArray(const nodeBT &_node)
             {
                 cout << _node.M->get(j, i) << " ";
             }
-            cout << endl;
         }
-        cout << " |" << endl;
+        if(showCities){
+            cout << "|" << left << setw(6) << city(_node.M->nameN[j]) << right;
+        }
+        else{
+            cout << "|" << setw(6) << _node.M->nameN[j];
+        }
+        cout << endl;
     }
-
     for (int i = 0; i < _node.M->M; i++)
     {
         cout << "--------";

@@ -51,7 +51,7 @@ public:
     nodeBT* addNode(char& row, char& col, double& limit);
     void showData();
     void showArray(bool showCities);
-    void showArray(const nodeBT &_node);
+    void showArray(const nodeBT &_node,bool showCities);
     void showGraph(const string &prefix, const nodeBT *node, bool isLeft, bool showCities);
     void showGraph(bool showCities);
     static string city(char key);
@@ -64,6 +64,7 @@ private:
     double kara, h;
     nodeBT *head;
     nodeBT *next;
+    list<char> result2;
 };
 
 
