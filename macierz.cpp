@@ -65,10 +65,14 @@ macierz::macierz(string Fname)
             {
                 arkusz >> record;
 
-                if(record[0] == '0')
-                    record = "INF";
+                if(record == "0" || record == "INF"){
+                    row.push_back(INF);
+                }
+                else{
+                    row.push_back(stod(record));
+                }
 
-                row.push_back(stod(record));
+
             }
             temp.push_back(row);
             row.clear();
