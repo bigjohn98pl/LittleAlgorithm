@@ -1,5 +1,6 @@
 #include "macierz.hpp"
 #include "little.hpp"
+#include <algorithm>
 
 macierz::macierz() {
     N = 1;
@@ -82,7 +83,7 @@ macierz::macierz(string Fname)
     else
     {
         cout << "Blad odczytu pliku: " << Fname << endl
-        << "    Nastapi zakonczenie dzialania programu!";
+             << "    Nastapi zakonczenie dzialania programu!";
     }
     arkusz.close();
 }
@@ -358,23 +359,69 @@ int* macierz::indexMin(int Row, int Col){
     }
     return indexMin;
 }
-void macierz::delRowCol(int row, int col, list<char> &result){
+void macierz::delRowCol(int row, int col, list<char> &result,list<char> &savePath){
 
+    int j=0;
+    bool change = false;
+    char delRow = nameN[row], delCol = nameM[col];
+    int indexParasiteRow = -1,indexParasiteCol = -1;
+    cout << "Redukcja macierzy, usuwanie wiersza i kolumny : ["<< delRow <<"] i [" << delCol << "]" << endl;
     if(N > 1 && M > 1 && row <= N-1 && col <= M-1 ){
-        for (int j=0; j<N ;j++ ) {
-            if(nameN[row] == nameM[j]){
+
+        for(int i=0 ; i< (int)nameN.size(); i++){
+            if(nameN[i] == delCol){
+                indexParasiteRow = i;
+            }
+            if(nameM[i] == delRow){
+                indexParasiteCol = i;
+            }
+        }
+
+        if( (indexParasiteRow >= 0) && (indexParasiteCol >=0) ){
+            cout << "Usuwanie cyklu pasozytniczego, wstawienie Inf w: ["<< nameN[indexParasiteRow] <<"] i [" << nameM[indexParasiteCol] << "]" << endl;
+            tablica[indexParasiteRow][indexParasiteCol] = INF;
+        }
+        else{
+            while (!change) {
                 for (int i=0; i<N ;i++ ) {
-                    if(nameM[col] == nameN[i]){
+                    if(nameN[i] == delCol && nameM[j] == delRow){
+                        cout << "Usuwanie cyklu pasozytniczego, wstawienie Inf w: ["<< nameN[i] <<"] i [" << nameM[j] << "]" << endl;
                         tablica[i][j] = INF;
+                        change = true;
+                        break;
                     }
                     if(result.back() == nameN[i] && result.front() == nameM[j]){
+                        cout << "Usuwanie cyklu pasozytniczego, wstawienie Inf w: ["<< nameN[i] <<"] i [" << nameM[j] << "]" << endl;
                         tablica[i][j] = INF;
+                        change = true;
+                        break;
                     }
-                    else if(result.back() == nameM[i] && result.front() == nameN[j]){
+                    else if(result.front() == nameN[i] && result.back() == nameM[j]){
+                        cout << "Usuwanie cyklu pasozytniczego, wstawienie Inf w: ["<< nameN[i] <<"] i [" << nameM[j] << "]" << endl;
                         tablica[i][j] = INF;
+                        change = true;
+                        break;
+                    }
+                    else{
+//                        if(savePath.back() == nameN[i] && savePath.front() == nameM[j]){
+//                            cout << "Usuwanie cyklu pasozytniczego, wstawienie Inf w: ["<< nameN[i] <<"] i [" << nameM[j] << "]" << endl;
+//                            tablica[i][j] = INF;
+//                            change = true;
+//                            break;
+//                        }
+//                        else if(savePath.front() == nameN[i] && savePath.back() == nameM[j]){
+//                            cout << "Usuwanie cyklu pasozytniczego, wstawienie Inf w: ["<< nameN[i] <<"] i [" << nameM[j] << "]" << endl;
+//                            tablica[i][j] = INF;
+//                            change = true;
+//                            break;
+//                        }
                     }
                 }
+                j++;
             }
+        }
+
+        for (int j=0; j<N ;j++ ) {
             tablica[j].erase(tablica[j].begin()+col);
         }
         tablica.erase(tablica.begin()+row);
@@ -382,18 +429,6 @@ void macierz::delRowCol(int row, int col, list<char> &result){
         nameM.erase(nameM.begin()+col);
         N--;
         M--;
-    }
-
-
-    //tablica[N-1][M-1] = 999;
-    if(N == 2 && M == 2){
-        for(int i = 0 ; i<N ; i++){
-            for(int j = 0; j<M ; j++){
-                if(i == j){
-                    tablica[i][j] = INF;
-                }
-            }
-        }
     }
 }
 bool macierz::haveZerosRows(){

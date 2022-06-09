@@ -39,12 +39,12 @@ little::~little(){
 //Krok 1 - metoda wegierska 1 i 2
 void little::stepOne(bool show){
     if(show){
-        wypiszKrok1Wegierski();
         if(! next->M->haveZerosRows()){
+            wypiszKrok1Wegierski(*next);
             *next->limit += metodaWegierskaKrok1(*next);
         }
-        wypiszKrok2Wegierski();
         if(!next->M->haveZerosColums()){
+            wypiszKrok2Wegierski(*next);
             *next->limit += metodaWegierskaKrok2(*next);
         }
     }
@@ -68,6 +68,7 @@ void little::stepTwo(){
                 iMin = next->M->indexMin(i,j);
                 suma = next->M->get(iMin[0],j) + next->M->get(i,iMin[1]);
                 if(suma > karaMax){
+
                     karaMax = suma;
 
                     next->edge[0] = i;
@@ -85,32 +86,46 @@ void little::stepTree(){
     int wiersz = next->edge[0],   kolumna = next->edge[1];
     double leftNodeLimit = *next->limit + kara;
     double rightNodeLimit = *next->limit + h;
-    static list<char> savePath;
 
     next->left = new nodeBT(wiersz,kolumna,leftNodeLimit,*next->M);
     next->left->name->insert(0,1,'*'); //Gwiazdka Beee
 
     next->right = new nodeBT(wiersz,kolumna,rightNodeLimit,*next->M);
 
-    if(result2.empty()){
-        result2.push_back(next->right->name->front());
-        result2.push_back(next->right->name->back());
+    if(result.empty()){
+        result.push_back(next->right->name->front());
+        result.push_back(next->right->name->back());
     }
     else{
-        if(result2.back() == next->right->name->front()){
-            result2.push_back(next->right->name->back());
+        if(result.back() == next->right->name->front()){
+            result.push_back(next->right->name->back());
         }
-        else if(result2.front() == next->right->name->back()){
-            result2.push_front(next->right->name->front());
+        else if(result.front() == next->right->name->back()){
+            result.push_front(next->right->name->front());
         }
-        else if(result2.back() == next->right->name->back()){
-            result2.pop_back();
-            result2.push_back(next->right->name->front());
-            result2.push_back(next->right->name->back());
+        else if(result.back() == next->right->name->back()){
+            result.pop_back();
+            result.push_back(next->right->name->front());
+            result.push_back(next->right->name->back());
         }
         else{
-            savePath.push_back(next->right->name->front());
-            savePath.push_back(next->right->name->back());
+            if(savePath.empty()){
+                savePath.push_back(next->right->name->front());
+                savePath.push_back(next->right->name->back());
+            }
+            else{
+                if(savePath.back() == next->right->name->front()){
+                    savePath.push_back(next->right->name->back());
+                }
+                else if(savePath.front() == next->right->name->back()){
+                    savePath.push_front(next->right->name->front());
+                }
+                else if(savePath.back() == next->right->name->back()){
+                    savePath.pop_back();
+                    savePath.push_back(next->right->name->front());
+                    savePath.push_back(next->right->name->back());
+                }
+            }
         }
     }
 
@@ -120,16 +135,18 @@ void little::stepTree(){
 void little::stepFour(){
     int wiersz = next->edge[0],   kolumna = next->edge[1];
 
-    next->right->M->delRowCol(wiersz,kolumna,result2);
+    next->right->M->delRowCol(wiersz,kolumna,result,savePath);
     stepFive();
 }
 //Krok5 - sprawdzanie czy mamy zera a nastepnie obliczenie h
 void little::stepFive(){
     h = 0;
     if(!next->right->M->haveZerosRows()){
+        wypiszKrok1Wegierski(*next->right);
         h += metodaWegierskaKrok1(*next->right);
     }
-    if(next->right->M->haveZerosColums()){
+    if(!next->right->M->haveZerosColums()){
+        wypiszKrok2Wegierski(*next->right);
         h += metodaWegierskaKrok2(*next->right);
     }
     *next->right->limit += h; // dodanie h do ograniczenia
@@ -140,20 +157,19 @@ void little::stepFive(){
 //Krok6 - przyporzadkowanie wartosci do wierzcholka(zrealizowane w kroku 5)
 void little::stepSix(){
 
-    showArray(*next->right,false);
     next = next->right; //zredukowana macierz staje sie nowa macierza
-
+    showArray(*next,false);
     if(next->M->N == 2 && next->M->M == 2){
         stepSeven();
     }
     else{
-        stepOne(false);
+        stepOne(true);
     }
 }
 //Krok7 - sprawdzanie czy macierz jest 2x2 i czy zblizamy sie do konca
 void little::stepSeven(){
 
-    if(next->M->N == 2 && next->M->M == 2 && ( (next->M->get(0,0) == 0 && next->M->get(1,1) == 0) || (next->M->get(0,1) == 0 && next->M->get(1,0) == 0)) ){
+    if(next->M->N == 2 && next->M->M == 2 && ( (next->M->get(0,0) == 0 && next->M->get(1,1) == 0) || (next->M->get(0,1) == 0 && next->M->get(1,0) == 0) ) ){
         for(int i=0; i<next->M->N ; i++){
             for(int j=0; j<next->M->M ; j++){
                 if(next->M->get(i,j) == 0 ){
@@ -171,7 +187,11 @@ void little::stepSeven(){
 //sprawdzamy czy limit ostatniej krawedzi jest wiekszy od limitu dziecka po lewej stronie z poczatku grafu, jesli tak to KONIEC
 void little::stepEight(){
     nodeBT *last = next;
+    result.clear();
+    savePath.clear();
     if(*head->left->limit < *last->limit ){
+        result.push_back(head->right->name->front());
+        result.push_back(head->right->name->back());
         stepNine();
     }
 }
@@ -181,8 +201,10 @@ void little::stepNine(){
     int col = head->left->edge[1];
     head->left->M->tablica[row][col] = INF;
     next = head->left;
-
+    showArray(*next,false);
+    wypiszKrok1Wegierski(*next);
     metodaWegierskaKrok1(*next);
+    wypiszKrok2Wegierski(*next);
     metodaWegierskaKrok2(*next);
 
     stepTwo();
@@ -214,55 +236,86 @@ double little::metodaWegierskaKrok2(nodeBT &_node){
     }
     return SUM;
 }
-void little::wypiszKrok1Wegierski(){
+void little::wypiszKrok1Wegierski(nodeBT &_node){
 
-    cout << endl;
-    cout << setw(6) << next->M->nameM[0];
-    for(int i = 1 ; i<next->M->M; i++){
-        cout << setw(5) << next->M->nameM[i];
+    cout << "Metoda wegierska krok 1"<< endl;
+    cout << setw(6) << _node.M->nameM[0];
+    for(int i = 1 ; i<_node.M->M; i++){
+        cout << setw(5) << _node.M->nameM[i];
     }
     cout << endl;
-    for(int i = 0 ; i<next->M->M; i++){
+    for(int i = 0 ; i<_node.M->M; i++){
         cout <<"------";
     }
     cout << endl;
-    for(int j = 0; j<next->M->N; j++){
-        cout << next->M->nameN[j] <<"|";
-        for(int i = 0 ; i<next->M->M; i++){
+    for(int j = 0; j<_node.M->N; j++){
+        cout << _node.M->nameN[j] <<"|";
+        for(int i = 0 ; i<_node.M->M; i++){
             cout << setw(4);
-            if(next->M->get(j,i) >= (INF - 20000)){
+            if(_node.M->get(j,i) >= (INF - 20000)){
                 cout << "Inf" << " ";
             }
             else{
-                cout << next->M->get(j,i) << " ";
+                cout << _node.M->get(j,i) << " ";
             }
         }
-        if(next->M->get(j,next->M->indexMinRow(j)) <= 0){
+        if(_node.M->get(j,_node.M->indexMinRow(j)) <= 0){
             cout << endl;
         }
         else{
-            cout <<" |- "<< next->M->get(j,next->M->indexMinRow(j)) << endl;
+            cout <<" |- "<< _node.M->get(j,_node.M->indexMinRow(j)) << endl;
         }
     }
-    for(int i = 0 ; i<next->M->M; i++){
+    for(int i = 0 ; i<_node.M->M; i++){
         cout <<"------";
     }
     cout << endl;
 
 }
-void little::wypiszKrok2Wegierski(){
+void little::wypiszKrok2Wegierski(nodeBT &_node){
 
     string space = "    ";
 
-    showArray(false);
+    cout << "Metoda wegierska krok 2"<< endl;
+    cout << setw(6) << _node.M->nameM[0];
+    for(int i = 1 ; i<_node.M->M; i++){
+        cout << setw(5) << _node.M->nameM[i];
+    }
+    cout << endl;
+    for(int i = 0 ; i<_node.M->M; i++){
+        cout <<"------";
+    }
+    cout << endl;
+    for(int j = 0; j<_node.M->N; j++){
+        cout << _node.M->nameN[j] <<"|";
+        for(int i = 0 ; i<_node.M->M; i++){
+            cout << setw(4);
+            if(_node.M->get(j,i) >= (INF - 20000)){
+                cout << "Inf" << " ";
+            }
+            else{
+                cout << _node.M->get(j,i) << " ";
+            }
+        }
+        if(_node.M->get(j,_node.M->indexMinRow(j)) <= 0){
+            cout << endl;
+        }
+        else{
+            cout <<" | "<< endl;
+        }
+    }
+    for(int i = 0 ; i<_node.M->M; i++){
+        cout <<"------";
+    }
+    cout << endl;
 
     cout  << " -" ;
-    for(int i = 0 ; i<next->M->M; i++){
-        if(next->M->get(next->M->indexMinCol(i),i) <= 0){
+    for(int i = 0 ; i<_node.M->M; i++){
+        if(_node.M->get(_node.M->indexMinCol(i),i) <= 0){
             cout  << space << " ";
         }
         else{
-            cout << setw(4) << next->M->get(next->M->indexMinCol(i),i) << " " ;
+            cout << setw(4) << _node.M->get(_node.M->indexMinCol(i),i) << " " ;
         }
     }
     cout << endl;
@@ -402,8 +455,7 @@ void little::showArray(bool showCities)
 
 void little::showArray(const nodeBT &_node,bool showCities)
 {
-
-    cout << endl;
+    cout << " +++ Macierz [" << *_node.name << "] +++" << endl;
     for (int i = 0; i < _node.M->M; i++)
     {
         if(showCities){
@@ -524,7 +576,7 @@ void little::set(macierz &_set)
     next = head;
 }
 
-void little::result(bool showCities)
+void little::result2(bool showCities)
 {
 
     nodeBT *tmp = head, *next;

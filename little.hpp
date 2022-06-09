@@ -42,12 +42,12 @@ public:
     void stepSeven();
     void stepEight();
     void stepNine();
-    void result(bool showCities);
+    void result2(bool showCities);
 
     double metodaWegierskaKrok1(nodeBT &_node);
     double metodaWegierskaKrok2(nodeBT &_node);
-    void wypiszKrok1Wegierski();
-    void wypiszKrok2Wegierski();
+    void wypiszKrok1Wegierski(nodeBT &_node);
+    void wypiszKrok2Wegierski(nodeBT &_node);
     nodeBT* addNode(char& row, char& col, double& limit);
     void showData();
     void showArray(bool showCities);
@@ -64,7 +64,7 @@ private:
     double kara, h;
     nodeBT *head;
     nodeBT *next;
-    list<char> result2;
+    list<char> result,savePath;
 };
 
 
