@@ -403,18 +403,18 @@ void macierz::delRowCol(int row, int col, list<char> &result,list<char> &savePat
                         break;
                     }
                     else{
-//                        if(savePath.back() == nameN[i] && savePath.front() == nameM[j]){
-//                            cout << "Usuwanie cyklu pasozytniczego, wstawienie Inf w: ["<< nameN[i] <<"] i [" << nameM[j] << "]" << endl;
-//                            tablica[i][j] = INF;
-//                            change = true;
-//                            break;
-//                        }
-//                        else if(savePath.front() == nameN[i] && savePath.back() == nameM[j]){
-//                            cout << "Usuwanie cyklu pasozytniczego, wstawienie Inf w: ["<< nameN[i] <<"] i [" << nameM[j] << "]" << endl;
-//                            tablica[i][j] = INF;
-//                            change = true;
-//                            break;
-//                        }
+                        if(savePath.back() == nameN[i] && savePath.front() == nameM[j]){
+                            cout << "Usuwanie cyklu pasozytniczego, wstawienie Inf w: ["<< nameN[i] <<"] i [" << nameM[j] << "]" << endl;
+                            tablica[i][j] = INF;
+                            change = true;
+                            break;
+                        }
+                        else if(savePath.front() == nameN[i] && savePath.back() == nameM[j]){
+                            cout << "Usuwanie cyklu pasozytniczego, wstawienie Inf w: ["<< nameN[i] <<"] i [" << nameM[j] << "]" << endl;
+                            tablica[i][j] = INF;
+                            change = true;
+                            break;
+                        }
                     }
                 }
                 j++;
