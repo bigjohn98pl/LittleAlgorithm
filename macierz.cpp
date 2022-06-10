@@ -359,13 +359,13 @@ int* macierz::indexMin(int Row, int Col){
     }
     return indexMin;
 }
-void macierz::delRowCol(int row, int col, list<char> &result,list<char> &savePath){
+void macierz::delRowCol(int row, int col, list<char> &result,list<char> &savePath, bool &stepByStep){
 
     int j=0;
     bool change = false;
     char delRow = nameN[row], delCol = nameM[col];
     int indexParasiteRow = -1,indexParasiteCol = -1;
-    cout << "Redukcja macierzy, usuwanie wiersza i kolumny : ["<< delRow <<"] i [" << delCol << "]" << endl;
+    if(stepByStep){cout << "Redukcja macierzy, usuwanie wiersza i kolumny : ["<< delRow <<"] i [" << delCol << "]" << endl;}
     if(N > 1 && M > 1 && row <= N-1 && col <= M-1 ){
 
         for(int i=0 ; i< (int)nameN.size(); i++){
@@ -378,39 +378,39 @@ void macierz::delRowCol(int row, int col, list<char> &result,list<char> &savePat
         }
 
         if( (indexParasiteRow >= 0) && (indexParasiteCol >=0) ){
-            cout << "Usuwanie cyklu pasozytniczego, wstawienie Inf w: ["<< nameN[indexParasiteRow] <<"] i [" << nameM[indexParasiteCol] << "]" << endl;
+            if(stepByStep){cout << "Usuwanie cyklu pasozytniczego, wstawienie Inf w: ["<< nameN[indexParasiteRow] <<"] i [" << nameM[indexParasiteCol] << "]" << endl;}
             tablica[indexParasiteRow][indexParasiteCol] = INF;
         }
         else{
             while (!change) {
                 for (int i=0; i<N ;i++ ) {
                     if(nameN[i] == delCol && nameM[j] == delRow){
-                        cout << "Usuwanie cyklu pasozytniczego, wstawienie Inf w: ["<< nameN[i] <<"] i [" << nameM[j] << "]" << endl;
+                        if(stepByStep){cout << "Usuwanie cyklu pasozytniczego, wstawienie Inf w: ["<< nameN[i] <<"] i [" << nameM[j] << "]" << endl;}
                         tablica[i][j] = INF;
                         change = true;
                         break;
                     }
                     if(result.back() == nameN[i] && result.front() == nameM[j]){
-                        cout << "Usuwanie cyklu pasozytniczego, wstawienie Inf w: ["<< nameN[i] <<"] i [" << nameM[j] << "]" << endl;
+                        if(stepByStep){cout << "Usuwanie cyklu pasozytniczego, wstawienie Inf w: ["<< nameN[i] <<"] i [" << nameM[j] << "]" << endl;}
                         tablica[i][j] = INF;
                         change = true;
                         break;
                     }
                     else if(result.front() == nameN[i] && result.back() == nameM[j]){
-                        cout << "Usuwanie cyklu pasozytniczego, wstawienie Inf w: ["<< nameN[i] <<"] i [" << nameM[j] << "]" << endl;
+                        if(stepByStep){cout << "Usuwanie cyklu pasozytniczego, wstawienie Inf w: ["<< nameN[i] <<"] i [" << nameM[j] << "]" << endl;}
                         tablica[i][j] = INF;
                         change = true;
                         break;
                     }
                     else{
                         if(savePath.back() == nameN[i] && savePath.front() == nameM[j]){
-                            cout << "Usuwanie cyklu pasozytniczego, wstawienie Inf w: ["<< nameN[i] <<"] i [" << nameM[j] << "]" << endl;
+                            if(stepByStep){cout << "Usuwanie cyklu pasozytniczego, wstawienie Inf w: ["<< nameN[i] <<"] i [" << nameM[j] << "]" << endl;}
                             tablica[i][j] = INF;
                             change = true;
                             break;
                         }
                         else if(savePath.front() == nameN[i] && savePath.back() == nameM[j]){
-                            cout << "Usuwanie cyklu pasozytniczego, wstawienie Inf w: ["<< nameN[i] <<"] i [" << nameM[j] << "]" << endl;
+                            if(stepByStep){cout << "Usuwanie cyklu pasozytniczego, wstawienie Inf w: ["<< nameN[i] <<"] i [" << nameM[j] << "]" << endl;}
                             tablica[i][j] = INF;
                             change = true;
                             break;

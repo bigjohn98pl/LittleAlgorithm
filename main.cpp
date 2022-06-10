@@ -47,7 +47,7 @@ int main()
             data.fill(showCieties);
             problem.set(data);
             problem.showArray(showCieties);
-            problem.stepOne(false);
+            problem.stepOne();
             problem.showGraph(showCieties);
             problem.result2(showCieties);
             system("PAUSE");
@@ -72,7 +72,7 @@ int main()
                 problem.set(Tab1);
                 problem.showArray(showCieties);
                 system("PAUSE");
-                problem.stepOne(false);
+                problem.stepOne();
                 problem.showGraph(showCieties);
                 problem.result2(showCieties);
                 system("PAUSE");
@@ -81,7 +81,7 @@ int main()
                 problem.set(Tab2);
                 problem.showArray(showCieties);
                 system("PAUSE");
-                problem.stepOne(false);
+                problem.stepOne();
                 problem.showGraph(showCieties);
                 problem.result2(showCieties);
                 system("PAUSE");
@@ -90,7 +90,7 @@ int main()
                 problem.set(Tab3);
                 problem.showArray(showCieties);
                 system("PAUSE");
-                problem.stepOne(true);
+                problem.stepOne();
                 problem.showGraph(showCieties);
                 problem.result2(showCieties);
                 system("PAUSE");
@@ -104,7 +104,7 @@ int main()
             cout << "   Macierz wejsciowa:" << endl;
             problem.showArray(showCieties);
             system("PAUSE");
-            problem.stepOne(true);
+            problem.stepOne();
             problem.showGraph(showCieties);
             problem.result2(showCieties);
             system("PAUSE");
@@ -116,6 +116,7 @@ int main()
                 cout << "   Ustawienia programu:" << endl;
                 cout << "1. Wyswietlaj nazwy z pliku city.txt   -> " << (showCieties ? "Tak":"Nie") << endl <<
                         "2. Zmien nazwe pliku z danymi  ->  " << fileName << endl <<
+                        "3. Wyswietlaj obliczenia krok po kroku  ->  " << (problem.getStepByStep() ? "Tak":"Nie") << endl <<
                         endl <<
                         "0. Cofnij" << endl <<
                         ">>    ";
@@ -128,6 +129,9 @@ int main()
                     system("cls");
                     cout << "Podaj nazwe pliku z danymi >>  ";
                     cin >> fileName;
+                    break;
+                case 3:
+                    problem.setStepByStep(true);
                     break;
                 default:
                     break;

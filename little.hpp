@@ -33,7 +33,7 @@ public:
     little(int row, int col);
     little(vector<vector<double>> Tab);
     ~little();
-    void stepOne(bool show);
+    void stepOne();
     void stepTwo();
     void stepTree();
     void stepFour();
@@ -59,12 +59,16 @@ public:
 
     void set(vector<vector<double>> &_set);
     void set(macierz &_set);
+    void setStepByStep(const bool &_set){stepByStep = _set;}
+    bool& getStepByStep(){return stepByStep;};
+
 private:
 
     double kara, h;
     nodeBT *head;
     nodeBT *next;
     list<char> result,savePath;
+    bool stepByStep;
 };
 
 

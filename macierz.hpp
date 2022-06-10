@@ -43,7 +43,7 @@ public:
     int indexMinCol(int col);
     int* indexMin(int Row, int Col);
     macierz& operator =(macierz& B);
-    void delRowCol(int row, int col,list<char> &result, list<char> &savePath);
+    void delRowCol(int row, int col,list<char> &result, list<char> &savePath, bool &stepByStep);
     bool haveZerosRows();
     bool haveZerosColums();
 
