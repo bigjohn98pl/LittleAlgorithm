@@ -13,7 +13,6 @@
 #ifndef MACIERZ_HPP
 #define MACIERZ_HPP
 
-
 #include "global.hpp"
 
 #define ROW 5
