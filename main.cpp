@@ -2,7 +2,6 @@
 #include "little.hpp"
 #include "nodeBT.hpp"
 
-
 int main()
 {
     string fileName = "arkusz.txt";
@@ -16,8 +15,8 @@ int main()
 
     little problem;
 
-    while (option != 0) {
-        macierz dataFile(fileName);
+    while (option != 0) 
+    {
         system("cls");
         cout << "==============================================================" << endl
              << "|                    Problem komiwojazera                     |" << endl
@@ -34,7 +33,8 @@ int main()
 
         cin >> option;
         system("cls");
-        switch (option) {
+        switch (option) 
+        {
         default:
             option = -1;
             break;
@@ -95,16 +95,6 @@ int main()
                 break;
             }
             break;
-        case 3:
-            problem.set(dataFile);
-            cout << "   Macierz wejsciowa:" << endl;
-            problem.showArray(showCieties);
-            system("PAUSE");
-            problem.stepOne();
-            problem.showGraph(showCieties);
-            problem.result2(showCieties);
-            system("PAUSE");
-            break;
         case 4:
             while(option != 0)
             {
@@ -134,6 +124,17 @@ int main()
                 }
             }
             option = -1;
+            break;
+        case 3:
+            macierz dataFile(fileName);
+            problem.set(dataFile);
+            cout << "   Macierz wejsciowa:" << endl;
+            problem.showArray(showCieties);
+            system("PAUSE");
+            problem.stepOne();
+            problem.showGraph(showCieties);
+            problem.result2(showCieties);
+            system("PAUSE");
             break;
         }
     }
