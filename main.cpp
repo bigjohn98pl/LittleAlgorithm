@@ -7,7 +7,9 @@ int main()
     string fileName = "arkusz.txt";
     int option = -1;
     bool showCieties = true;
+    bool stepshow = false;
     macierz data;
+    macierz dataFile;
 
     static vector<vector<double>> Tab1 = {{INF, 1, 1, 2, 3}, {3, INF, 2, 5, 6}, {5, 4, INF, 3, 7}, {8, 4, 3, INF, 2}, {7, 7, 5, 6, INF}};
     static vector<vector<double>> Tab2 = {{INF,8,7,5},{2,INF,6,4},{3,10,INF,4},{7,5,4,INF}};
@@ -117,7 +119,8 @@ int main()
                     cin >> fileName;
                     break;
                 case 3:
-                    problem.setStepByStep(true);
+                    stepshow =  not stepshow;
+                    problem.setStepByStep(stepshow);
                     break;
                 default:
                     break;
@@ -126,7 +129,8 @@ int main()
             option = -1;
             break;
         case 3:
-            macierz dataFile(fileName);
+            if(dataFile.file(fileName))
+            {
             problem.set(dataFile);
             cout << "   Macierz wejsciowa:" << endl;
             problem.showArray(showCieties);
@@ -135,6 +139,12 @@ int main()
             problem.showGraph(showCieties);
             problem.result2(showCieties);
             system("PAUSE");
+            }
+            else
+            {
+                cout << "Blad odczytu pliku " << fileName << endl;
+                system("PAUSE");
+            }
             break;
         }
     }

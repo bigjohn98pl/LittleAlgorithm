@@ -38,7 +38,7 @@ macierz::macierz( vector< vector< double>> Tab)
         nameM.push_back('A'+i);
 }
 
-macierz::macierz(string Fname)
+bool macierz::file(string Fname)
 {
     fstream arkusz(Fname);
     vector<vector<double>> temp;
@@ -67,11 +67,9 @@ macierz::macierz(string Fname)
         tablica.swap(temp);
     }
     else
-    {
-        cout << "Blad odczytu pliku: " << Fname << endl
-             << "    Nastapi zakonczenie dzialania programu!";
-    }
+        return false;
     arkusz.close();
+    return true;
 }
 
 macierz::macierz(double **tab, int _n, int _m) {

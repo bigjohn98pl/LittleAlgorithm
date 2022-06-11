@@ -28,8 +28,9 @@ public:
     macierz(double **tab, int _n, int _m);
     macierz(macierz& X);
     macierz( vector< vector< double>> Tab);
-    macierz(string Fname);
     ~macierz();
+
+    bool file(string Fname);
 
     void random(int from = 1, int to = 10);
     void reSize(int n, int m);
