@@ -7,6 +7,7 @@ little::little()
 {
     kara = 0;
     h = 0;
+    stepByStep = false;
     head = nullptr;
     next = head;
 }
@@ -15,6 +16,7 @@ little::little(int row, int col)
 {
     kara = 0;
     h = 0;
+    stepByStep = false;
 
     head = new nodeBT(*new macierz(row,col));
     next = head;
@@ -24,6 +26,8 @@ little::little(vector<vector<double>> Tab){
 
     kara = 0;
     h = 0;
+    stepByStep = false;
+
     head = new nodeBT(Tab);
     next = head;
 }
@@ -37,25 +41,19 @@ little::~little(){
 //==============================================================================================//
 
 //Krok 1 - metoda wegierska 1 i 2
-void little::stepOne(bool show){
-    if(show){
+void little::stepOne(){
         if(! next->M->haveZerosRows()){
-            wypiszKrok1Wegierski(*next);
+            if(stepByStep){
+                wypiszKrok1Wegierski(*next);
+            }
             *next->limit += metodaWegierskaKrok1(*next);
         }
         if(!next->M->haveZerosColums()){
-            wypiszKrok2Wegierski(*next);
+            if(stepByStep){
+                wypiszKrok2Wegierski(*next);
+            }
             *next->limit += metodaWegierskaKrok2(*next);
         }
-    }
-    else{
-        if(! next->M->haveZerosRows()){
-            *next->limit += metodaWegierskaKrok1(*next);
-        }
-        if(!next->M->haveZerosColums()){
-            *next->limit += metodaWegierskaKrok2(*next);
-        }
-    }
     stepTwo();
 }
 //Krok2 - obliczanie bilansu zer
@@ -135,18 +133,22 @@ void little::stepTree(){
 void little::stepFour(){
     int wiersz = next->edge[0],   kolumna = next->edge[1];
 
-    next->right->M->delRowCol(wiersz,kolumna,result,savePath);
+    next->right->M->delRowCol(wiersz,kolumna,result,savePath,stepByStep);
     stepFive();
 }
 //Krok5 - sprawdzanie czy mamy zera a nastepnie obliczenie h
 void little::stepFive(){
     h = 0;
     if(!next->right->M->haveZerosRows()){
-        wypiszKrok1Wegierski(*next->right);
+        if(stepByStep){
+            wypiszKrok1Wegierski(*next->right);
+        }
         h += metodaWegierskaKrok1(*next->right);
     }
     if(!next->right->M->haveZerosColums()){
-        wypiszKrok2Wegierski(*next->right);
+        if(stepByStep){
+            wypiszKrok2Wegierski(*next->right);
+        }
         h += metodaWegierskaKrok2(*next->right);
     }
     *next->right->limit += h; // dodanie h do ograniczenia
@@ -158,12 +160,14 @@ void little::stepFive(){
 void little::stepSix(){
 
     next = next->right; //zredukowana macierz staje sie nowa macierza
-    showArray(*next,false);
+    if(stepByStep){
+        showArray(*next,false);
+    }
     if(next->M->N == 2 && next->M->M == 2){
         stepSeven();
     }
     else{
-        stepOne(true);
+        stepOne();
     }
 }
 //Krok7 - sprawdzanie czy macierz jest 2x2 i czy zblizamy sie do konca
@@ -201,7 +205,11 @@ void little::stepNine(){
     int col = head->left->edge[1];
     head->left->M->tablica[row][col] = INF;
     next = head->left;
-    showArray(*next,false);
+
+    if(stepByStep){
+        showArray(*next,false);
+    }
+
     wypiszKrok1Wegierski(*next);
     metodaWegierskaKrok1(*next);
     wypiszKrok2Wegierski(*next);
@@ -455,7 +463,7 @@ void little::showArray(bool showCities)
 
 void little::showArray(const nodeBT &_node,bool showCities)
 {
-    cout << " +++ Macierz [" << *_node.name << "] +++" << endl;
+    cout << endl << " +++ Macierz [" << *_node.name << "] +++" << endl;
     for (int i = 0; i < _node.M->M; i++)
     {
         if(showCities){
@@ -501,6 +509,7 @@ void little::showArray(const nodeBT &_node,bool showCities)
         cout << "--------";
     }
     cout << endl;
+    system("PAUSE");
 }
 
 void little::showData()
