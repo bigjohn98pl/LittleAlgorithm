@@ -6,13 +6,9 @@ macierz::macierz() {
     N = 1;
     M = 1;
     for (int i = 0; i < N; i++)
-    {
         nameN.push_back('A'+i);
-    }
     for (int i = 0; i < M; i++)
-    {
         nameM.push_back('A'+i);
-    }
 }
 macierz::macierz(const int _n,const int _m) : N(_n), M(_m)
 {
@@ -23,34 +19,29 @@ macierz::macierz(const int _n,const int _m) : N(_n), M(_m)
         nameN.push_back('A'+i);
     }
     for (int i = 0; i < M; i++)
-    {
         nameM.push_back('A'+i);
-    }
-
 }
 
-vector<double> &macierz::operator [](int i) {
+vector<double> &macierz::operator [](int i) 
+{
     return (tablica.at(i));
 }
 
-macierz::macierz( vector< vector< double>> Tab){
+macierz::macierz( vector< vector< double>> Tab)
+{
     N = Tab.size();
     M = Tab[0].size();
     tablica.swap(Tab);
     for (int i = 0; i < N; i++)
-    {
         nameN.push_back('A'+i);
-    }
     for (int i = 0; i < M; i++)
-    {
         nameM.push_back('A'+i);
-    }
 }
 
 macierz::macierz(string Fname)
 {
-    vector<vector<double>> temp;
     fstream arkusz(Fname);
+    vector<vector<double>> temp;
     string record;
     vector<double> row;
 
@@ -65,15 +56,10 @@ macierz::macierz(string Fname)
             for (int c = 0; c < N; c++)
             {
                 arkusz >> record;
-
-                if(record == "0" || record == "INF"){
+                if(record == "0" || record == "INF")
                     row.push_back(INF);
-                }
-                else{
+                else
                     row.push_back(stod(record));
-                }
-
-
             }
             temp.push_back(row);
             row.clear();
@@ -93,27 +79,19 @@ macierz::macierz(double **tab, int _n, int _m) {
     M = _m;
     tablica.reserve(N);
     for (int i = 0; i < N; i++)
-    {
         tablica[i].reserve(M);
-    }
 
     for (int i = 0; i < N; i++)
-    {
         nameN.push_back('A'+i);
-    }
+
     for (int i = 0; i < M; i++)
-    {
         nameM.push_back('A'+i);
-    }
 
     for (int i = 0; i < N; i++)
-    {
         for (int j = 0; j < M; j++)
-        {
             tablica[i][j] = tab[i][j];
-        }
-    }
 }
+
 macierz::macierz(macierz& X) {
     N = X.N;
     M = X.M;
@@ -121,35 +99,30 @@ macierz::macierz(macierz& X) {
     tablica = X.tablica;
     nameN = X.nameN;
     nameM = X.nameM;
+}
 
-};
 macierz::~macierz() {
     N = 0;
     M = 0;
 }
 
-void macierz::random(int from, int to) {
-
+void macierz::random(int from, int to) 
+{
     random_device rd;
     mt19937 gen(rd());
     uniform_int_distribution<> dist(from, to);
 
     for (int i = 0; i < N; i++)
-    {
         for (int j = 0; j < M; j++)
-        {
             tablica[i][j] = dist(gen);
-        }
-    }
 }
-void macierz::reSize(int n, int m) {
-    macierz temp(*this);
 
+void macierz::reSize(int n, int m) 
+{
+    macierz temp(*this);
     tablica.resize(n);
     for (int i = 0; i < n; i++)
-    {
         tablica[i].resize(m);
-    }
 
     nameN.resize(n);
     nameM.resize(m);
@@ -161,40 +134,33 @@ void macierz::reSize(int n, int m) {
         {
             nameM[j] = 'A'+j;
             if (i < temp.N && j < temp.M && !temp.tablica.empty())
-            {
                 tablica[i][j] = temp.tablica[i][j];
-            }
             else
-            {
                 tablica[i][j] = 0;
-            }
         }
     }
     N = n;
     M = m;
 }
-void macierz::set(vector<vector<double>> tab){
+
+void macierz::set(vector<vector<double>> tab)
+{
     tablica.insert(tablica.begin(),tab.begin(),tab.end());
 }
+
 void macierz::show(bool showCities)
 {
     cout << endl;
     for (int i = 0; i < M; i++)
     {
         if (showCities)
-        {
             cout << setw(6) << little::city(nameM[i]) << "|";
-        }
         else
-        {
             cout << setw(6) << nameM[i] << "|";
-        }
     }
     cout << endl;
     for (int i = 0; i < M; i++)
-    {
         cout << "----------";
-    }
     cout << endl;
     for (int j = 0; j < N; j++)
     {
@@ -208,24 +174,16 @@ void macierz::show(bool showCities)
                      << " ";
             }
             else
-            {
                 cout << get(j, i) << " ";
-            }
         }
         if (showCities)
-        {
             cout << "|" << left << setw(6) << little::city(nameN[j]) << right;
-        }
         else
-        {
             cout << "|" << setw(6) << nameN[j];
-        }
         cout << endl;
     }
     for (int i = 0; i < M; i++)
-    {
         cout << "----------";
-    }
     cout << endl;
 }
 
@@ -278,65 +236,65 @@ void macierz::fill(bool showCieties)
     }
 }
 
-int macierz::col() {
+int macierz::col() 
+{
     return this->M;
 }
 
-int macierz::row() {
+int macierz::row()
+{
     return this->N;
 }
 
-void showRowCol(macierz X) {
+void showRowCol(macierz X) 
+{
     cout << "Macierz: " << X.row() << " na " << X.col() << endl;
 }
 
-int macierz::indexMinRow(int row){
-
+int macierz::indexMinRow(int row)
+{
     int minIndex=0,i=1;
     int lastMin = minIndex;
 
-    while(i<M){
+    while(i<M)
+    {
         lastMin = minIndex;
-
-        if(tablica[row][i] <= tablica[row][minIndex]){
+        if(tablica[row][i] <= tablica[row][minIndex])
             minIndex = i;
-        }
         i++;
     }
 
-    if(tablica[row][lastMin] < tablica[row][minIndex]){
+    if(tablica[row][lastMin] < tablica[row][minIndex])
         return lastMin;
-    }
-    else{
+    else
         return minIndex;
-    }
 }
-int macierz::indexMinCol(int col){
+
+int macierz::indexMinCol(int col)
+{
 
     int minIndex=0,j=1;
     int lastMin = minIndex;
 
-    while(j< N ){
+    while(j< N )
+    {
         lastMin = minIndex;
-
-        if(tablica[j][col] <= tablica[minIndex][col]){
+        if(tablica[j][col] <= tablica[minIndex][col])
             minIndex = j;
-        }
         j++;
     }
 
-    if(tablica[lastMin][col] < tablica[minIndex][col]){
+    if(tablica[lastMin][col] < tablica[minIndex][col])
         return lastMin;
-    }
-    else{
+    else
         return minIndex;
-    }
 }
-int* macierz::indexMin(int Row, int Col){
+
+int* macierz::indexMin(int Row, int Col)
+{
     int minRow = -1,minCol = -1;
     static int indexMin[2];
     int value=0;
-
 
     for(int rows = 0; rows < N ; rows++){
         if(rows != Row){
@@ -359,15 +317,17 @@ int* macierz::indexMin(int Row, int Col){
     }
     return indexMin;
 }
-void macierz::delRowCol(int row, int col, list<char> &result,list<char> &savePath){
 
+void macierz::delRowCol(int row, int col, list<char> &result,list<char> &savePath)
+{
     int j=0;
     bool change = false;
     char delRow = nameN[row], delCol = nameM[col];
     int indexParasiteRow = -1,indexParasiteCol = -1;
-    cout << "Redukcja macierzy, usuwanie wiersza i kolumny : ["<< delRow <<"] i [" << delCol << "]" << endl;
-    if(N > 1 && M > 1 && row <= N-1 && col <= M-1 ){
 
+    cout << "Redukcja macierzy, usuwanie wiersza i kolumny : ["<< delRow <<"] i [" << delCol << "]" << endl;
+    if(N > 1 && M > 1 && row <= N-1 && col <= M-1 )
+    {
         for(int i=0 ; i< (int)nameN.size(); i++){
             if(nameN[i] == delCol){
                 indexParasiteRow = i;
@@ -431,51 +391,44 @@ void macierz::delRowCol(int row, int col, list<char> &result,list<char> &savePat
         M--;
     }
 }
-bool macierz::haveZerosRows(){
+
+bool macierz::haveZerosRows()
+{
     int countRowZeros=0;
     int countRowZerosLastRow = 0;
 
-    for(int i = 0; i < N; i++){
-
+    for(int i = 0; i < N; i++)
+    {
         countRowZerosLastRow = countRowZeros;
-
-        for(int j = 0 ; j < M ; j++){
-
-            if(tablica[i][j] == 0){
+        for(int j = 0 ; j < M ; j++)
+            if(tablica[i][j] == 0)
                 countRowZeros++;
-            }
-        }
-        if(countRowZeros == countRowZerosLastRow){
+        if(countRowZeros == countRowZerosLastRow)
             return false;
-        }
     }
-
     return true;
 }
-bool macierz::haveZerosColums(){
+
+bool macierz::haveZerosColums()
+{
     int countColZeros=0;
     int countColZerosLastCol = 0;
 
-    for(int i = 0; i < N; i++){
-
+    for(int i = 0; i < N; i++)
+    {
         countColZerosLastCol = countColZeros;
-
-        for(int j = 0 ; j < M ; j++){
-
-            if(tablica[j][i] == 0){
+        for(int j = 0 ; j < M ; j++)
+            if(tablica[j][i] == 0)
                 countColZeros++;
-            }
-        }
 
-        if(countColZeros == countColZerosLastCol){
+        if(countColZeros == countColZerosLastCol)
             return false;
-        }
     }
-
     return true;
 }
 
-double macierz::get(const int &i,const int &j){
+double macierz::get(const int &i,const int &j)
+{
     return tablica[i][j];
 }
 //=========================================================================================
