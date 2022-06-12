@@ -38,7 +38,7 @@ macierz::macierz( vector< vector< double>> Tab)
         nameM.push_back('A'+i);
 }
 
-bool macierz::file(string Fname)
+bool macierz::file(string &Fname)
 {
     fstream arkusz(Fname);
     vector<vector<double>> temp;
@@ -49,6 +49,10 @@ bool macierz::file(string Fname)
     {
         arkusz >> N;
         M = N;
+        if(!nameM.empty()){
+            nameM.clear();
+            nameN.clear();
+        }
         for (int i = 0; i < N; i++)
         {
             nameN.push_back('A' + i);
@@ -67,7 +71,10 @@ bool macierz::file(string Fname)
         tablica.swap(temp);
     }
     else
+    {
         return false;
+    }
+
     arkusz.close();
     return true;
 }

@@ -30,7 +30,7 @@ public:
     macierz( vector< vector< double>> Tab);
     ~macierz();
 
-    bool file(string Fname);
+    bool file(string &Fname);
 
     void random(int from = 1, int to = 10);
     void reSize(int n, int m);

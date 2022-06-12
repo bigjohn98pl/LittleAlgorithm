@@ -17,8 +17,9 @@ int main()
 
     little problem;
 
-    while (option != 0) 
+    while (option != 0)
     {
+        dataFile.file(fileName);
         system("cls");
         cout << "==============================================================" << endl
              << "|                    Problem komiwojazera                     |" << endl
@@ -35,7 +36,8 @@ int main()
 
         cin >> option;
         system("cls");
-        switch (option) 
+
+        switch (option)
         {
         default:
             option = -1;
@@ -97,6 +99,24 @@ int main()
                 break;
             }
             break;
+        case 3:
+            if(dataFile.file(fileName))
+            {
+                problem.set(dataFile);
+                cout << "   Macierz wejsciowa:" << endl;
+                problem.showArray(showCieties);
+                system("PAUSE");
+                problem.stepOne();
+                problem.showGraph(showCieties);
+                problem.result2(showCieties);
+                system("PAUSE");
+            }
+            else
+            {
+                cout << "Blad odczytu pliku " << fileName << endl;
+                system("PAUSE");
+            }
+            break;
         case 4:
             while(option != 0)
             {
@@ -127,24 +147,6 @@ int main()
                 }
             }
             option = -1;
-            break;
-        case 3:
-            if(dataFile.file(fileName))
-            {
-            problem.set(dataFile);
-            cout << "   Macierz wejsciowa:" << endl;
-            problem.showArray(showCieties);
-            system("PAUSE");
-            problem.stepOne();
-            problem.showGraph(showCieties);
-            problem.result2(showCieties);
-            system("PAUSE");
-            }
-            else
-            {
-                cout << "Blad odczytu pliku " << fileName << endl;
-                system("PAUSE");
-            }
             break;
         }
     }
