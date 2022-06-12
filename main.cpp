@@ -2,25 +2,24 @@
 #include "little.hpp"
 #include "nodeBT.hpp"
 
-
 int main()
 {
     string fileName = "arkusz.txt";
     int option = -1;
-    bool showCieties = false;
+    bool showCieties = true;
+    bool stepshow = false;
     macierz data;
+    macierz dataFile;
 
     static vector<vector<double>> Tab1 = {{INF, 1, 1, 2, 3}, {3, INF, 2, 5, 6}, {5, 4, INF, 3, 7}, {8, 4, 3, INF, 2}, {7, 7, 5, 6, INF}};
     static vector<vector<double>> Tab2 = {{INF,8,7,5},{2,INF,6,4},{3,10,INF,4},{7,5,4,INF}};
     static vector<vector<double>> Tab3 = {{INF, 7, 3, 6, 5, 2}, {4, INF, 8, 13, 5, 4}, {2, 1, INF, 16, 17, 19}, {18, 3, 25, INF, 2, 8}, {6, 10, 31, 23, INF, 7}, {3, 7, 4, 5, 6, INF}};
-    /*  program sie zapetla :
-    static vector<vector<double>> Tab3 = {{INF,10,15,20},{10,INF,35,25},{15,35,INF,30},{20,25,30,INF}};
-    static vector<vector<double>> Tab4 = {{INF,130,180,300},{130,INF,320,350},{180,320,INF,360},{300,350,360,INF}}; */
 
     little problem;
 
-    while (option != 0) {
-        macierz dataFile(fileName);
+    while (option != 0)
+    {
+        dataFile.file(fileName);
         system("cls");
         cout << "==============================================================" << endl
              << "|                    Problem komiwojazera                     |" << endl
@@ -37,7 +36,8 @@ int main()
 
         cin >> option;
         system("cls");
-        switch (option) {
+        switch (option)
+        {
         default:
             option = -1;
             break;
@@ -57,7 +57,6 @@ int main()
                     "1. Macierz 4x4 - z ksiazki" << endl <<
                     "2. Macierz 5x5 - z zajec 1"<< endl <<
                     "3. Macierz 6x6 - z zajec 2"<< endl <<
-                    //Tab4  "3. Macierz 4x4 - z wikipedi (blad,zapetla sie)"<< endl <<
                     endl <<
                     "0. Cofnij" << endl <<
                     ">> " ;
@@ -100,14 +99,22 @@ int main()
             }
             break;
         case 3:
-            problem.set(dataFile);
-            cout << "   Macierz wejsciowa:" << endl;
-            problem.showArray(showCieties);
-            system("PAUSE");
-            problem.stepOne();
-            problem.showGraph(showCieties);
-            problem.result2(showCieties);
-            system("PAUSE");
+            if(dataFile.file(fileName))
+            {
+                problem.set(dataFile);
+                cout << "   Macierz wejsciowa:" << endl;
+                problem.showArray(showCieties);
+                system("PAUSE");
+                problem.stepOne();
+                problem.showGraph(showCieties);
+                problem.result2(showCieties);
+                system("PAUSE");
+            }
+            else
+            {
+                cout << "Blad odczytu pliku " << fileName << endl;
+                system("PAUSE");
+            }
             break;
         case 4:
             while(option != 0)
@@ -131,7 +138,8 @@ int main()
                     cin >> fileName;
                     break;
                 case 3:
-                    problem.setStepByStep(true);
+                    stepshow =  not stepshow;
+                    problem.setStepByStep(stepshow);
                     break;
                 default:
                     break;
