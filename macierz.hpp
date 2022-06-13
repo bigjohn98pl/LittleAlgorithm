@@ -13,7 +13,6 @@
 #ifndef MACIERZ_HPP
 #define MACIERZ_HPP
 
-
 #include "global.hpp"
 
 #define ROW 5
@@ -31,21 +30,24 @@ public:
     macierz( vector< vector< double>> Tab);
     ~macierz();
 
+    bool file(string &Fname);
+
     void random(int from = 1, int to = 10);
     void reSize(int n, int m);
     void set(vector<vector<double>> tab);
-    void show();
+    void show(bool showCities);
+    void fill(bool showCieties);
     int col();
     int row();
     int indexMinRow(int row);
     int indexMinCol(int col);
     int* indexMin(int Row, int Col);
     macierz& operator =(macierz& B);
-    void delRowCol(int row, int col);
+    void delRowCol(int row, int col,list<char> &result, list<char> &savePath, bool &stepByStep);
     bool haveZerosRows();
     bool haveZerosColums();
 
-    double get(const int &i,const int &j);
+    double get(const int &i, const int &j);
     double operator ()(int i, int j);
     vector<double>& operator [](int i);
 
