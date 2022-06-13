@@ -45,7 +45,7 @@ bool macierz::file(string &Fname)
     string record;
     vector<double> row;
 
-    if (arkusz.good())
+    if (arkusz.is_open())
     {
         arkusz >> N;
         M = N;

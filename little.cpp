@@ -389,7 +389,7 @@ string little::city(char key)
 {
     vector<string> nazwyMiast;
     fstream arkusz("city.txt");
-    if (arkusz.good())
+    if (arkusz.is_open())
     {
         string a;
         for (int i = 0; i < 15 ; i++)
